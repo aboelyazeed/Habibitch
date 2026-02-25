@@ -43,7 +43,9 @@ export default function VerifyEmailScreen() {
           {code.map((digit, i) => (
             <TextInput
               key={i}
-              ref={(ref) => (inputs.current[i] = ref)}
+              ref={(ref) => {
+                inputs.current[i] = ref;
+              }}
               style={[styles.codeInput, digit ? styles.codeInputFilled : null]}
               value={digit}
               onChangeText={(text) => handleChange(text, i)}

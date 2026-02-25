@@ -10,9 +10,22 @@ import {
   Platform,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../src/theme";
-import { t } from "../src/i18n";
-import { useStreamStore, MOCK_STREAMS, MOCK_CHAT_MESSAGES } from "../src/store";
+import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../../src/theme";
+import { t } from "../../src/i18n";
+import {
+  useStreamStore,
+  MOCK_STREAMS,
+  MOCK_CHAT_MESSAGES,
+} from "../../src/store";
+
+type ChatMsg = {
+  id: string;
+  userId: string;
+  displayName: string;
+  content: string;
+  isSubscriber: boolean;
+  isCreator: boolean;
+};
 
 export default function LiveScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -30,7 +43,7 @@ export default function LiveScreen() {
 
   const handleSend = () => {
     if (!message.trim()) return;
-    setMessages((prev) => [
+    setMessages((prev: ChatMsg[]) => [
       ...prev,
       {
         id: `msg-${Date.now()}`,

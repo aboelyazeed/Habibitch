@@ -15,17 +15,17 @@ import {
   SPACING,
   BORDER_RADIUS,
   SHADOWS,
-} from "../src/theme";
-import { t } from "../src/i18n";
-import { MOCK_STREAMS } from "../src/store";
+} from "../../src/theme";
+import { t } from "../../src/i18n";
+import { MOCK_STREAMS, type MockStream } from "../../src/store";
 
 export default function CreatorProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const stream =
-    MOCK_STREAMS.find((s) => s.creatorId === id) || MOCK_STREAMS[0];
+    MOCK_STREAMS.find((s: MockStream) => s.creatorId === id) || MOCK_STREAMS[0];
   const creatorStreams = MOCK_STREAMS.filter(
-    (s) => s.creatorId === stream.creatorId,
+    (s: MockStream) => s.creatorId === stream.creatorId,
   );
 
   return (
@@ -80,7 +80,7 @@ export default function CreatorProfileScreen() {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>{t("profile.streams")}</Text>
-        {creatorStreams.map((s) => (
+        {creatorStreams.map((s: MockStream) => (
           <TouchableOpacity
             key={s.id}
             style={styles.streamCard}

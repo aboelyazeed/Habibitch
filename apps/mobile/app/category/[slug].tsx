@@ -14,14 +14,14 @@ import {
   SPACING,
   BORDER_RADIUS,
   SHADOWS,
-} from "../src/theme";
-import { t } from "../src/i18n";
-import { MOCK_STREAMS } from "../src/store";
+} from "../../src/theme";
+import { t } from "../../src/i18n";
+import { MOCK_STREAMS, type MockStream } from "../../src/store";
 
 export default function CategoryResultsScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const router = useRouter();
-  const results = MOCK_STREAMS.filter((s) => s.categoryId === slug);
+  const results = MOCK_STREAMS.filter((s: MockStream) => s.categoryId === slug);
   const categoryName = results[0]?.categoryName || slug;
 
   return (

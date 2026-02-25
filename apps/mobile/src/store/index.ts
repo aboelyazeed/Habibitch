@@ -133,6 +133,8 @@ export const MOCK_STREAMS = [
   },
 ];
 
+export type MockStream = (typeof MOCK_STREAMS)[number];
+
 export const MOCK_CHAT_MESSAGES = [
   {
     id: "msg-1",
