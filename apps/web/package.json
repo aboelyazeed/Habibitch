@@ -13,6 +13,7 @@
   "dependencies": {
     "@habibi/shared": "workspace:*",
     "@habibi/types": "workspace:*",
+    "@react-oauth/google": "^0.13.4",
     "axios": "^1.6.0",
     "lucide-react": "^0.575.0",
     "react": "^19.2.0",

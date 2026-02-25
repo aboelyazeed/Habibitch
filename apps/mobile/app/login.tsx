@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -10,6 +10,8 @@ import {
   Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
+import * as Google from 'expo-auth-session/providers/google';
+import * as WebBrowser from 'expo-web-browser';
 import {
   COLORS,
   FONT_SIZES,
@@ -21,20 +23,46 @@ import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 import { useAuthStore } from "../src/store";
 
+WebBrowser.maybeCompleteAuthSession();
+
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoading, error } = useAuthStore();
+  const { login, googleLogin, isLoading, error } = useAuthStore();
   const router = useRouter();
+
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    iosClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_IOS,
+    androidClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_ANDROID,
+    webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID_WEB,
+  });
 
   const handleLogin = async () => {
     try {
       await login(email, password);
       router.replace("/(tabs)/home");
     } catch (err) {
-      // Error is handled by the store, we could show an alert or let the UI display the error state
+      // Error is handled by the store
     }
   };
+
+  const handleGoogleLogin = async (token: string) => {
+    try {
+      await googleLogin(token);
+      router.replace("/(tabs)/home");
+    } catch (err) {
+      console.error("Google login error", err);
+    }
+  };
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      const { authentication } = response;
+      if (authentication?.idToken) {
+        handleGoogleLogin(authentication.idToken);
+      }
+    }
+  }, [response]);
 
   return (
     <KeyboardAvoidingView
@@ -109,7 +137,11 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.socialRow}>
-            <TouchableOpacity style={styles.socialBtn}>
+            <TouchableOpacity
+              style={[styles.socialBtn, !request && { opacity: 0.5 }]}
+              onPress={() => promptAsync()}
+              disabled={!request}
+            >
               <Text style={styles.socialText}>Google</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.socialBtn}>

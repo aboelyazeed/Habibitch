@@ -239,6 +239,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   login: (email: string, password: string) => Promise<void>;
+  googleLogin: (idToken: string) => Promise<void>;
   signup: (
     email: string,
     password: string,
@@ -264,6 +265,21 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({
         isLoading: false,
         error: err.response?.data?.error || err.message || "Failed to login",
+      });
+      throw err;
+    }
+  },
+  googleLogin: async (idToken: string) => {
+    try {
+      set({ isLoading: true, error: null });
+      const res = await api.post("/auth/google", { idToken });
+      const { token, user } = res.data;
+      await AsyncStorage.setItem("habibi_token", token);
+      set({ user, isAuthenticated: true, isLoading: false, error: null });
+    } catch (err: any) {
+      set({
+        isLoading: false,
+        error: err.response?.data?.error || err.message || "Failed to login with Google",
       });
       throw err;
     }
