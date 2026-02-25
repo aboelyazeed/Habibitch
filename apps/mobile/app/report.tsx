@@ -15,6 +15,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 
 export default function ReportScreen() {
@@ -23,22 +24,39 @@ export default function ReportScreen() {
   const router = useRouter();
 
   const reasons = [
-    { id: "spam", label: t("report.reasons.spam"), icon: "📩" },
-    { id: "harassment", label: t("report.reasons.harassment"), icon: "😡" },
+    { id: "spam", label: t("report.reasons.spam"), icon: "mail-outline" },
+    {
+      id: "harassment",
+      label: t("report.reasons.harassment"),
+      icon: "warning-outline",
+    },
     {
       id: "inappropriate",
       label: t("report.reasons.inappropriate"),
-      icon: "⚠️",
+      icon: "alert-circle-outline",
     },
-    { id: "violence", label: t("report.reasons.violence"), icon: "🔴" },
-    { id: "other", label: t("report.reasons.other"), icon: "❓" },
+    {
+      id: "violence",
+      label: t("report.reasons.violence"),
+      icon: "close-circle-outline",
+    },
+    {
+      id: "other",
+      label: t("report.reasons.other"),
+      icon: "help-circle-outline",
+    },
   ];
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backIcon}>→</Text>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={COLORS.textPrimary}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t("report.title")}</Text>
         <View style={{ width: 24 }} />
@@ -55,7 +73,15 @@ export default function ReportScreen() {
             ]}
             onPress={() => setSelectedReason(reason.id)}
           >
-            <Text style={styles.reasonIcon}>{reason.icon}</Text>
+            <Ionicons
+              name={reason.icon as keyof typeof Ionicons.glyphMap}
+              size={24}
+              color={
+                selectedReason === reason.id
+                  ? COLORS.primaryLight
+                  : COLORS.textMuted
+              }
+            />
             <Text
               style={[
                 styles.reasonLabel,
@@ -101,7 +127,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING["5xl"],
     paddingBottom: SPACING.md,
   },
-  backIcon: { fontSize: FONT_SIZES.xl, color: COLORS.textPrimary },
+  backIcon: { marginRight: SPACING.sm },
   headerTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -131,7 +157,6 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     backgroundColor: "rgba(168, 85, 247, 0.08)",
   },
-  reasonIcon: { fontSize: 24 },
   reasonLabel: {
     fontSize: FONT_SIZES.base,
     color: COLORS.textPrimary,

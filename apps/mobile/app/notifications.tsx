@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../src/theme";
 import { t } from "../src/i18n";
 import { MOCK_NOTIFICATIONS } from "../src/store";
@@ -18,7 +19,12 @@ export default function NotificationsScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backIcon}>→</Text>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={COLORS.textPrimary}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t("notifications.title")}</Text>
         <View style={{ width: 24 }} />
@@ -29,15 +35,19 @@ export default function NotificationsScreen() {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={[styles.notifItem, !item.read && styles.notifUnread]}>
-            <Text style={styles.notifIcon}>
-              {item.type === "follow"
-                ? "👤"
-                : item.type === "live"
-                  ? "📺"
-                  : item.type === "gift"
-                    ? "🎁"
-                    : "⭐"}
-            </Text>
+            <Ionicons
+              name={
+                item.type === "follow"
+                  ? "person-circle-outline"
+                  : item.type === "live"
+                    ? "tv-outline"
+                    : item.type === "gift"
+                      ? "gift-outline"
+                      : "star-outline"
+              }
+              size={28}
+              color={COLORS.primary}
+            />
             <View style={styles.notifContent}>
               <Text style={styles.notifUser}>{item.userName}</Text>
               <Text style={styles.notifMessage}>{item.message}</Text>
@@ -49,7 +59,12 @@ export default function NotificationsScreen() {
         contentContainerStyle={styles.list}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={styles.emptyIcon}>🔔</Text>
+            <Ionicons
+              name="notifications-outline"
+              size={48}
+              color={COLORS.textMuted}
+              style={styles.emptyIcon}
+            />
             <Text style={styles.emptyText}>{t("notifications.empty")}</Text>
           </View>
         }
@@ -68,7 +83,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING["5xl"],
     paddingBottom: SPACING.md,
   },
-  backIcon: { fontSize: FONT_SIZES.xl, color: COLORS.textPrimary },
+  backIcon: { marginRight: SPACING.sm },
   headerTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -85,7 +100,6 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.border,
   },
   notifUnread: { backgroundColor: "rgba(168, 85, 247, 0.05)" },
-  notifIcon: { fontSize: 28 },
   notifContent: { flex: 1, gap: 2 },
   notifUser: {
     fontSize: FONT_SIZES.sm,
@@ -116,6 +130,6 @@ const styles = StyleSheet.create({
     gap: SPACING.md,
     paddingTop: SPACING["6xl"],
   },
-  emptyIcon: { fontSize: 48, opacity: 0.5 },
+  emptyIcon: { opacity: 0.5 },
   emptyText: { fontSize: FONT_SIZES.base, color: COLORS.textMuted },
 });

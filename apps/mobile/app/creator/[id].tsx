@@ -16,6 +16,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../../src/i18n";
 import { MOCK_STREAMS, type MockStream } from "../../src/store";
 
@@ -31,7 +32,7 @@ export default function CreatorProfileScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scroll}>
       <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-        <Text style={styles.backIcon}>→</Text>
+        <Ionicons name="arrow-back" size={20} color={COLORS.textPrimary} />
       </TouchableOpacity>
 
       <View style={styles.profileHeader}>
@@ -41,7 +42,14 @@ export default function CreatorProfileScreen() {
         />
         <Text style={styles.name}>{stream.creatorName}</Text>
         {stream.isCreatorVerified && (
-          <Text style={styles.verified}>✓ موثق</Text>
+          <View style={styles.verifiedRow}>
+            <Ionicons
+              name="checkmark-circle"
+              size={14}
+              color={COLORS.primary}
+            />
+            <Text style={styles.verified}>موثق</Text>
+          </View>
         )}
         <Text style={styles.category}>{stream.categoryName}</Text>
 
@@ -65,17 +73,36 @@ export default function CreatorProfileScreen() {
             <Text style={styles.subText}>{t("stream.subscribe")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.giftBtn}>
-            <Text style={styles.giftText}>🎁</Text>
+            <Ionicons
+              name="gift-outline"
+              size={20}
+              color={COLORS.textPrimary}
+            />
           </TouchableOpacity>
         </View>
       </View>
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>{t("profile.about")}</Text>
-        <Text style={styles.bio}>
-          منشئ محتوى عربي متخصص في {stream.categoryName}. أبث مباشرة يومياً من
-          الساعة 8 مساءً 💜
-        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            flexWrap: "wrap",
+          }}
+        >
+          <Text style={styles.bio}>
+            منشئ محتوى عربي متخصص في {stream.categoryName}. أبث مباشرة يومياً من
+            الساعة 8 مساءً{" "}
+          </Text>
+          <Ionicons
+            name="heart"
+            size={14}
+            color={COLORS.primary}
+            style={{ marginLeft: 4 }}
+          />
+        </View>
       </View>
 
       <View style={styles.section}>
@@ -94,9 +121,16 @@ export default function CreatorProfileScreen() {
               <Text style={styles.streamTitle} numberOfLines={1}>
                 {s.title}
               </Text>
-              <Text style={styles.streamViewers}>
-                👁 {s.viewerCount.toLocaleString("ar-EG")}
-              </Text>
+              <View style={styles.viewersRow}>
+                <Ionicons
+                  name="eye-outline"
+                  size={12}
+                  color={COLORS.textMuted}
+                />
+                <Text style={styles.streamViewers}>
+                  {s.viewerCount.toLocaleString("ar-EG")}
+                </Text>
+              </View>
             </View>
           </TouchableOpacity>
         ))}
@@ -120,7 +154,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  backIcon: { color: COLORS.textPrimary, fontSize: FONT_SIZES.lg },
   profileHeader: {
     alignItems: "center",
     paddingTop: SPACING["6xl"],
@@ -139,6 +172,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: COLORS.textPrimary,
   },
+  verifiedRow: { flexDirection: "row", alignItems: "center", gap: 4 },
   verified: {
     fontSize: FONT_SIZES.xs,
     color: COLORS.primary,
@@ -185,7 +219,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  giftText: { fontSize: 18 },
   section: {
     paddingHorizontal: SPACING.lg,
     marginTop: SPACING.xl,
@@ -218,9 +251,11 @@ const styles = StyleSheet.create({
     color: COLORS.textPrimary,
     textAlign: "right",
   },
+  viewersRow: { flexDirection: "row", alignItems: "center", gap: 4 },
   streamViewers: {
     fontSize: FONT_SIZES.xs,
     color: COLORS.textMuted,
+
     textAlign: "right",
   },
 });

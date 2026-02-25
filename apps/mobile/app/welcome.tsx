@@ -14,6 +14,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 
 export default function WelcomeScreen() {
@@ -23,7 +24,7 @@ export default function WelcomeScreen() {
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View style={styles.iconCircle}>
-          <Text style={styles.iconText}>📡</Text>
+          <Ionicons name="radio-outline" size={40} color={COLORS.white} />
         </View>
         <Text style={styles.brand}>حبيبي ستريم</Text>
       </View>
@@ -34,13 +35,24 @@ export default function WelcomeScreen() {
 
         <View style={styles.features}>
           {[
-            { icon: "🎮", text: "بث مباشر للألعاب والرياضة" },
-            { icon: "📚", text: "محتوى تعليمي وثقافي" },
-            { icon: "🎁", text: "هدايا وعملات افتراضية" },
-            { icon: "🕌", text: "محتوى حلال وآمن للعائلة" },
+            {
+              icon: "game-controller-outline",
+              text: "بث مباشر للألعاب والرياضة",
+            },
+            { icon: "book-outline", text: "محتوى تعليمي وثقافي" },
+            { icon: "gift-outline", text: "هدايا وعملات افتراضية" },
+            {
+              icon: "shield-checkmark-outline",
+              text: "محتوى حلال وآمن للعائلة",
+            },
           ].map((f, i) => (
             <View key={i} style={styles.featureRow}>
-              <Text style={styles.featureIcon}>{f.icon}</Text>
+              <Ionicons
+                name={f.icon as keyof typeof Ionicons.glyphMap}
+                size={28}
+                color={COLORS.primaryLight}
+                style={styles.featureIcon}
+              />
               <Text style={styles.featureText}>{f.text}</Text>
             </View>
           ))}
@@ -85,7 +97,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     ...SHADOWS.glow,
   },
-  iconText: { fontSize: 36 },
   brand: {
     fontSize: FONT_SIZES["2xl"],
     fontWeight: "800",
@@ -111,7 +122,7 @@ const styles = StyleSheet.create({
     gap: SPACING.md,
     paddingHorizontal: SPACING.lg,
   },
-  featureIcon: { fontSize: 28 },
+  featureIcon: { width: 32 },
   featureText: {
     fontSize: FONT_SIZES.base,
     color: COLORS.textSecondary,

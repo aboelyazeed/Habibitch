@@ -8,6 +8,7 @@ import {
   Switch,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../src/theme";
 import { t } from "../src/i18n";
 
@@ -18,28 +19,36 @@ export default function SettingsScreen() {
     {
       title: t("settings.account"),
       items: [
-        { icon: "👤", label: "الملف الشخصي", type: "nav" as const },
-        { icon: "📧", label: "البريد الإلكتروني", type: "nav" as const },
-        { icon: "🔒", label: "كلمة المرور", type: "nav" as const },
+        { icon: "person-outline", label: "الملف الشخصي", type: "nav" as const },
+        {
+          icon: "mail-outline",
+          label: "البريد الإلكتروني",
+          type: "nav" as const,
+        },
+        {
+          icon: "lock-closed-outline",
+          label: "كلمة المرور",
+          type: "nav" as const,
+        },
       ],
     },
     {
       title: t("settings.notifications"),
       items: [
         {
-          icon: "🔔",
+          icon: "notifications-outline",
           label: "إشعارات البث",
           type: "toggle" as const,
           value: true,
         },
         {
-          icon: "💬",
+          icon: "chatbubble-outline",
           label: "إشعارات الرسائل",
           type: "toggle" as const,
           value: true,
         },
         {
-          icon: "🎁",
+          icon: "gift-outline",
           label: "إشعارات الهدايا",
           type: "toggle" as const,
           value: false,
@@ -50,13 +59,13 @@ export default function SettingsScreen() {
       title: t("settings.privacy"),
       items: [
         {
-          icon: "🚫",
+          icon: "ban-outline",
           label: t("settings.blocked"),
           type: "nav" as const,
           route: "/blocked-users",
         },
         {
-          icon: "👁",
+          icon: "eye-off-outline",
           label: "إخفاء الحالة",
           type: "toggle" as const,
           value: false,
@@ -66,10 +75,26 @@ export default function SettingsScreen() {
     {
       title: t("settings.about"),
       items: [
-        { icon: "❓", label: t("settings.help"), type: "nav" as const },
-        { icon: "📄", label: "شروط الاستخدام", type: "nav" as const },
-        { icon: "🔐", label: "سياسة الخصوصية", type: "nav" as const },
-        { icon: "ℹ️", label: "الإصدار 0.1.0", type: "info" as const },
+        {
+          icon: "help-circle-outline",
+          label: t("settings.help"),
+          type: "nav" as const,
+        },
+        {
+          icon: "document-text-outline",
+          label: "شروط الاستخدام",
+          type: "nav" as const,
+        },
+        {
+          icon: "shield-checkmark-outline",
+          label: "سياسة الخصوصية",
+          type: "nav" as const,
+        },
+        {
+          icon: "information-circle-outline",
+          label: "الإصدار 0.1.0",
+          type: "info" as const,
+        },
       ],
     },
   ];
@@ -78,7 +103,12 @@ export default function SettingsScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backIcon}>→</Text>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={COLORS.textPrimary}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t("settings.title")}</Text>
         <View style={{ width: 24 }} />
@@ -91,14 +121,20 @@ export default function SettingsScreen() {
             <TouchableOpacity
               key={i}
               style={styles.item}
+              // @ts-ignore
               onPress={() =>
                 item.type === "nav" &&
                 "route" in item &&
-                router.push(item.route as any)
+                router.push(item.route)
               }
             >
               <View style={styles.itemLeft}>
-                <Text style={styles.itemIcon}>{item.icon}</Text>
+                <Ionicons
+                  name={item.icon as keyof typeof Ionicons.glyphMap}
+                  size={22}
+                  color={COLORS.textPrimary}
+                  style={styles.itemIcon}
+                />
                 <Text style={styles.itemLabel}>{item.label}</Text>
               </View>
               {item.type === "toggle" ? (
@@ -108,7 +144,11 @@ export default function SettingsScreen() {
                   thumbColor={COLORS.white}
                 />
               ) : item.type === "nav" ? (
-                <Text style={styles.arrow}>‹</Text>
+                <Ionicons
+                  name="chevron-back"
+                  size={20}
+                  color={COLORS.textMuted}
+                />
               ) : null}
             </TouchableOpacity>
           ))}
@@ -133,7 +173,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING["5xl"],
     paddingBottom: SPACING.md,
   },
-  backIcon: { fontSize: FONT_SIZES.xl, color: COLORS.textPrimary },
+  backIcon: { marginRight: SPACING.sm },
   headerTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -158,9 +198,8 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.border,
   },
   itemLeft: { flexDirection: "row", alignItems: "center", gap: SPACING.md },
-  itemIcon: { fontSize: 20 },
+  itemIcon: { width: 24, textAlign: "center" },
   itemLabel: { fontSize: FONT_SIZES.base, color: COLORS.textPrimary },
-  arrow: { fontSize: FONT_SIZES.xl, color: COLORS.textMuted },
   deleteBtn: {
     marginHorizontal: SPACING.lg,
     marginTop: SPACING["3xl"],

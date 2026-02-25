@@ -8,6 +8,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../src/theme";
 import { t } from "../src/i18n";
 
@@ -31,7 +32,12 @@ export default function BlockedUsersScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backIcon}>→</Text>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={COLORS.textPrimary}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t("settings.blocked")}</Text>
         <View style={{ width: 24 }} />
@@ -54,7 +60,12 @@ export default function BlockedUsersScreen() {
         contentContainerStyle={styles.list}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={styles.emptyIcon}>🚫</Text>
+            <Ionicons
+              name="ban-outline"
+              size={48}
+              color={COLORS.textMuted}
+              style={styles.emptyIcon}
+            />
             <Text style={styles.emptyText}>لا يوجد مستخدمين محظورين</Text>
           </View>
         }
@@ -73,7 +84,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING["5xl"],
     paddingBottom: SPACING.md,
   },
-  backIcon: { fontSize: FONT_SIZES.xl, color: COLORS.textPrimary },
+  backIcon: { marginRight: SPACING.sm },
   headerTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -101,6 +112,6 @@ const styles = StyleSheet.create({
   },
   unblockText: { fontSize: FONT_SIZES.sm, color: COLORS.textSecondary },
   empty: { alignItems: "center", paddingTop: SPACING["6xl"], gap: SPACING.md },
-  emptyIcon: { fontSize: 48, opacity: 0.5 },
+  emptyIcon: { opacity: 0.5 },
   emptyText: { fontSize: FONT_SIZES.base, color: COLORS.textMuted },
 });

@@ -15,6 +15,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 
 export default function GoLiveScreen() {
@@ -23,21 +24,26 @@ export default function GoLiveScreen() {
   const router = useRouter();
 
   const categories = [
-    { id: "gaming", name: "ألعاب", icon: "🎮" },
-    { id: "education", name: "تعليم", icon: "📚" },
-    { id: "cooking", name: "طبخ", icon: "🍳" },
-    { id: "technology", name: "تكنولوجيا", icon: "💻" },
-    { id: "islamic", name: "إسلامي", icon: "🕌" },
-    { id: "just-chatting", name: "دردشة", icon: "💬" },
-    { id: "art-design", name: "فن", icon: "🎨" },
-    { id: "fitness", name: "لياقة", icon: "💪" },
+    { id: "gaming", name: "ألعاب", icon: "game-controller-outline" },
+    { id: "education", name: "تعليم", icon: "book-outline" },
+    { id: "cooking", name: "طبخ", icon: "restaurant-outline" },
+    { id: "technology", name: "تكنولوجيا", icon: "laptop-outline" },
+    { id: "islamic", name: "إسلامي", icon: "moon-outline" },
+    { id: "just-chatting", name: "دردشة", icon: "chatbubble-ellipses-outline" },
+    { id: "art-design", name: "فن", icon: "color-palette-outline" },
+    { id: "fitness", name: "لياقة", icon: "barbell-outline" },
   ];
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backIcon}>→</Text>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={COLORS.textPrimary}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t("creator.goLive")}</Text>
         <View style={{ width: 24 }} />
@@ -67,7 +73,15 @@ export default function GoLiveScreen() {
               ]}
               onPress={() => setSelectedCategory(cat.id)}
             >
-              <Text style={styles.categoryIcon}>{cat.icon}</Text>
+              <Ionicons
+                name={cat.icon as keyof typeof Ionicons.glyphMap}
+                size={28}
+                color={
+                  selectedCategory === cat.id
+                    ? COLORS.primaryLight
+                    : COLORS.textMuted
+                }
+              />
               <Text
                 style={[
                   styles.categoryName,
@@ -85,7 +99,7 @@ export default function GoLiveScreen() {
         style={styles.goLiveBtn}
         onPress={() => router.push("/camera-preview")}
       >
-        <Text style={styles.goLiveIcon}>📡</Text>
+        <Ionicons name="radio" size={24} color={COLORS.white} />
         <Text style={styles.goLiveText}>{t("creator.startStream")}</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -103,7 +117,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING["5xl"],
     paddingBottom: SPACING.md,
   },
-  backIcon: { fontSize: FONT_SIZES.xl, color: COLORS.textPrimary },
+  backIcon: { marginRight: SPACING.sm },
   headerTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -146,7 +160,6 @@ const styles = StyleSheet.create({
     borderColor: COLORS.primary,
     backgroundColor: "rgba(168, 85, 247, 0.1)",
   },
-  categoryIcon: { fontSize: 24 },
   categoryName: {
     fontSize: FONT_SIZES.xs,
     color: COLORS.textSecondary,
@@ -165,7 +178,6 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.xl,
     ...SHADOWS.md,
   },
-  goLiveIcon: { fontSize: 24 },
   goLiveText: {
     color: COLORS.white,
     fontSize: FONT_SIZES.lg,

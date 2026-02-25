@@ -10,6 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../../src/theme";
 import { t } from "../../src/i18n";
 import {
@@ -66,10 +67,15 @@ export default function LiveScreen() {
       {/* Video Player Area */}
       <View style={styles.playerArea}>
         <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-          <Text style={styles.backIcon}>✕</Text>
+          <Ionicons name="close" size={20} color={COLORS.white} />
         </TouchableOpacity>
         <View style={styles.playerPlaceholder}>
-          <Text style={styles.playerIcon}>📺</Text>
+          <Ionicons
+            name="tv-outline"
+            size={48}
+            color={COLORS.textMuted}
+            style={styles.playerIcon}
+          />
           <Text style={styles.playerText}>بث مباشر</Text>
         </View>
       </View>
@@ -84,21 +90,32 @@ export default function LiveScreen() {
         </View>
         <View style={styles.infoRow}>
           <Text style={styles.creatorName}>{stream.creatorName}</Text>
-          <Text style={styles.viewers}>
-            👁 {stream.viewerCount.toLocaleString("ar-EG")}
-          </Text>
+          <View style={styles.viewersRow}>
+            <Ionicons name="eye-outline" size={14} color={COLORS.textMuted} />
+            <Text style={styles.viewers}>
+              {stream.viewerCount.toLocaleString("ar-EG")}
+            </Text>
+          </View>
         </View>
         <View style={styles.actionRow}>
           <TouchableOpacity style={styles.actionBtn}>
-            <Text style={styles.actionIcon}>❤️</Text>
+            <Ionicons
+              name="heart-outline"
+              size={16}
+              color={COLORS.textSecondary}
+            />
             <Text style={styles.actionText}>{t("stream.follow")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionBtnPrimary}>
-            <Text style={styles.actionIcon}>🎁</Text>
+            <Ionicons name="gift-outline" size={16} color={COLORS.white} />
             <Text style={styles.actionTextPrimary}>{t("stream.gift")}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionBtn}>
-            <Text style={styles.actionIcon}>⭐</Text>
+            <Ionicons
+              name="star-outline"
+              size={16}
+              color={COLORS.textSecondary}
+            />
             <Text style={styles.actionText}>{t("stream.subscribe")}</Text>
           </TouchableOpacity>
         </View>
@@ -137,7 +154,12 @@ export default function LiveScreen() {
           textAlign="right"
         />
         <TouchableOpacity style={styles.sendBtn} onPress={handleSend}>
-          <Text style={styles.sendIcon}>📤</Text>
+          <Ionicons
+            name="send"
+            size={16}
+            color={COLORS.white}
+            style={styles.sendIcon}
+          />
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -164,7 +186,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  backIcon: { color: COLORS.white, fontSize: FONT_SIZES.lg },
   playerPlaceholder: { alignItems: "center", gap: SPACING.sm },
   playerIcon: { fontSize: 48 },
   playerText: { color: COLORS.textMuted, fontSize: FONT_SIZES.sm },
@@ -194,6 +215,11 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   creatorName: { fontSize: FONT_SIZES.sm, color: COLORS.textSecondary },
+  viewersRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
   viewers: { fontSize: FONT_SIZES.sm, color: COLORS.textMuted },
   actionRow: {
     flexDirection: "row",
@@ -219,7 +245,6 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.full,
     backgroundColor: COLORS.primary,
   },
-  actionIcon: { fontSize: 14 },
   actionText: { fontSize: FONT_SIZES.xs, color: COLORS.textSecondary },
   actionTextPrimary: {
     fontSize: FONT_SIZES.xs,
@@ -263,6 +288,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 4,
   },
-  sendIcon: { fontSize: 18 },
+  sendIcon: { marginLeft: -2 },
 });

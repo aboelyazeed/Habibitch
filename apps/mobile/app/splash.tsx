@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { View, Text, Animated, StyleSheet } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING } from "../src/theme";
 
 export default function SplashScreen() {
@@ -35,7 +36,7 @@ export default function SplashScreen() {
         ]}
       >
         <View style={styles.iconCircle}>
-          <Text style={styles.iconText}>📡</Text>
+          <Ionicons name="radio-outline" size={48} color={COLORS.white} />
         </View>
         <Text style={styles.title}>حبيبي ستريم</Text>
         <Text style={styles.subtitle}>البث المباشر الحلال</Text>
@@ -60,7 +61,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  iconText: { fontSize: 48 },
   title: {
     fontSize: FONT_SIZES["4xl"],
     fontWeight: "800",

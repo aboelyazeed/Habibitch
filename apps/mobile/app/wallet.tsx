@@ -14,6 +14,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 import { useWalletStore } from "../src/store";
 import { CURRENCY_PACKAGES } from "@habibi/shared";
@@ -26,7 +27,12 @@ export default function WalletScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backIcon}>→</Text>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={COLORS.textPrimary}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t("wallet.title")}</Text>
         <View style={{ width: 24 }} />
@@ -34,13 +40,23 @@ export default function WalletScreen() {
 
       <View style={styles.balanceCard}>
         <Text style={styles.balanceLabel}>{t("wallet.balance")}</Text>
-        <Text style={styles.balanceAmount}>
-          🪙 {balance.toLocaleString("ar-EG")}
-        </Text>
+        <View style={styles.balanceRow}>
+          <Ionicons name="cash" size={32} color={COLORS.accentGold} />
+          <Text style={styles.balanceAmount}>
+            {balance.toLocaleString("ar-EG")}
+          </Text>
+        </View>
         <Text style={styles.balanceCurrency}>{t("wallet.coins")}</Text>
       </View>
 
-      <Text style={styles.sectionTitle}>+ {t("wallet.topUp")}</Text>
+      <View style={styles.sectionHeader}>
+        <Ionicons
+          name="add-circle-outline"
+          size={20}
+          color={COLORS.textPrimary}
+        />
+        <Text style={styles.sectionTitle}>{t("wallet.topUp")}</Text>
+      </View>
       <View style={styles.packagesGrid}>
         {CURRENCY_PACKAGES.map((pkg) => (
           <TouchableOpacity
@@ -53,12 +69,16 @@ export default function WalletScreen() {
           >
             {"isPopular" in pkg && pkg.isPopular && (
               <View style={styles.popularBadge}>
-                <Text style={styles.popularText}>⭐ {t("wallet.popular")}</Text>
+                <Ionicons name="star" size={10} color={COLORS.bgPrimary} />
+                <Text style={styles.popularText}>{t("wallet.popular")}</Text>
               </View>
             )}
-            <Text style={styles.packageAmount}>
-              🪙 {pkg.amount.toLocaleString("ar-EG")}
-            </Text>
+            <View style={styles.packageAmountRow}>
+              <Ionicons name="cash" size={20} color={COLORS.accentGold} />
+              <Text style={styles.packageAmount}>
+                {pkg.amount.toLocaleString("ar-EG")}
+              </Text>
+            </View>
             <Text style={styles.packageName}>{pkg.nameAr}</Text>
             {"bonus" in pkg && pkg.bonus && (
               <Text style={styles.packageBonus}>
@@ -73,7 +93,10 @@ export default function WalletScreen() {
         ))}
       </View>
 
-      <Text style={styles.sectionTitle}>📜 {t("wallet.history")}</Text>
+      <View style={styles.sectionHeader}>
+        <Ionicons name="receipt-outline" size={20} color={COLORS.textPrimary} />
+        <Text style={styles.sectionTitle}>{t("wallet.history")}</Text>
+      </View>
       {[
         { desc: "شراء 500 عملة", amount: +500, date: "٢٠٢٥/٠٢/٢٥" },
         { desc: "هدية ماسة لأحمد الغامدي", amount: -50, date: "٢٠٢٥/٠٢/٢٤" },
@@ -84,15 +107,22 @@ export default function WalletScreen() {
             <Text style={styles.txDesc}>{tx.desc}</Text>
             <Text style={styles.txDate}>{tx.date}</Text>
           </View>
-          <Text
-            style={[
-              styles.txAmount,
-              tx.amount > 0 ? styles.txPositive : styles.txNegative,
-            ]}
-          >
-            {tx.amount > 0 ? "+" : ""}
-            {tx.amount.toLocaleString("ar-EG")} 🪙
-          </Text>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text
+              style={[
+                styles.txAmount,
+                tx.amount > 0 ? styles.txPositive : styles.txNegative,
+              ]}
+            >
+              {tx.amount > 0 ? "+" : ""}
+              {tx.amount.toLocaleString("ar-EG")}
+            </Text>
+            <Ionicons
+              name="cash"
+              size={14}
+              color={tx.amount > 0 ? COLORS.success : COLORS.error}
+            />
+          </View>
         </View>
       ))}
     </ScrollView>
@@ -110,7 +140,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING["5xl"],
     paddingBottom: SPACING.md,
   },
-  backIcon: { fontSize: FONT_SIZES.xl, color: COLORS.textPrimary },
+  backIcon: { marginRight: SPACING.sm },
   headerTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -128,6 +158,7 @@ const styles = StyleSheet.create({
     ...SHADOWS.glow,
   },
   balanceLabel: { fontSize: FONT_SIZES.sm, color: COLORS.textSecondary },
+  balanceRow: { flexDirection: "row", alignItems: "center", gap: SPACING.xs },
   balanceAmount: {
     fontSize: FONT_SIZES["4xl"],
     fontWeight: "800",
@@ -138,14 +169,19 @@ const styles = StyleSheet.create({
     color: COLORS.accentGold,
     fontWeight: "600",
   },
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    paddingHorizontal: SPACING.lg,
+    marginTop: SPACING.xl,
+    marginBottom: SPACING.md,
+    gap: SPACING.sm,
+  },
   sectionTitle: {
     fontSize: FONT_SIZES.lg,
     fontWeight: "700",
     color: COLORS.textPrimary,
-    paddingHorizontal: SPACING.lg,
-    marginTop: SPACING.xl,
-    marginBottom: SPACING.md,
-    textAlign: "right",
   },
   packagesGrid: {
     flexDirection: "row",
@@ -165,6 +201,9 @@ const styles = StyleSheet.create({
   },
   packagePopular: { borderColor: COLORS.accentGold, ...SHADOWS.glow },
   popularBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
     backgroundColor: COLORS.accentGold,
     paddingHorizontal: SPACING.sm,
     paddingVertical: 2,
@@ -176,6 +215,12 @@ const styles = StyleSheet.create({
     fontSize: FONT_SIZES.xs,
     color: COLORS.bgPrimary,
     fontWeight: "700",
+  },
+  packageAmountRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    marginTop: SPACING.sm,
   },
   packageAmount: {
     fontSize: FONT_SIZES.xl,
@@ -218,7 +263,7 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   txDate: { fontSize: FONT_SIZES.xs, color: COLORS.textMuted },
-  txAmount: { fontSize: FONT_SIZES.sm, fontWeight: "600" },
+  txAmount: { fontSize: FONT_SIZES.sm, fontWeight: "600", marginRight: 4 },
   txPositive: { color: COLORS.success },
   txNegative: { color: COLORS.error },
 });

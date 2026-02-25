@@ -1,21 +1,24 @@
 import { Tabs } from "expo-router";
 import { View, Text, StyleSheet } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES } from "../../src/theme";
 
 function TabIcon({
-  icon,
+  iconName,
   label,
   focused,
 }: {
-  icon: string;
+  iconName: keyof typeof Ionicons.glyphMap;
   label: string;
   focused: boolean;
 }) {
   return (
     <View style={styles.tabItem}>
-      <Text style={[styles.tabIcon, focused && styles.tabIconActive]}>
-        {icon}
-      </Text>
+      <Ionicons
+        name={iconName}
+        size={focused ? 24 : 22}
+        color={focused ? COLORS.primaryLight : COLORS.textMuted}
+      />
       <Text style={[styles.tabLabel, focused && styles.tabLabelActive]}>
         {label}
       </Text>
@@ -36,7 +39,11 @@ export default function TabLayout() {
         name="home"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="🏠" label="الرئيسية" focused={focused} />
+            <TabIcon
+              iconName={focused ? "home" : "home-outline"}
+              label="الرئيسية"
+              focused={focused}
+            />
           ),
         }}
       />
@@ -44,7 +51,11 @@ export default function TabLayout() {
         name="following"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="❤️" label="المتابعين" focused={focused} />
+            <TabIcon
+              iconName={focused ? "heart" : "heart-outline"}
+              label="المتابعين"
+              focused={focused}
+            />
           ),
         }}
       />
@@ -52,7 +63,11 @@ export default function TabLayout() {
         name="search"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="🔍" label="بحث" focused={focused} />
+            <TabIcon
+              iconName={focused ? "search" : "search-outline"}
+              label="بحث"
+              focused={focused}
+            />
           ),
         }}
       />
@@ -60,7 +75,11 @@ export default function TabLayout() {
         name="profile"
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon icon="👤" label="حسابي" focused={focused} />
+            <TabIcon
+              iconName={focused ? "person" : "person-outline"}
+              label="حسابي"
+              focused={focused}
+            />
           ),
         }}
       />
@@ -78,8 +97,6 @@ const styles = StyleSheet.create({
     paddingTop: 8,
   },
   tabItem: { alignItems: "center", gap: 2 },
-  tabIcon: { fontSize: 22 },
-  tabIconActive: { fontSize: 24 },
   tabLabel: { fontSize: FONT_SIZES.xs, color: COLORS.textMuted },
   tabLabelActive: { color: COLORS.primaryLight, fontWeight: "600" },
 });

@@ -10,6 +10,7 @@ import {
   Platform,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../src/theme";
 import { t } from "../src/i18n";
 import { MOCK_CHAT_MESSAGES } from "../src/store";
@@ -44,15 +45,26 @@ export default function HostRoomScreen() {
     >
       {/* Live View */}
       <View style={styles.liveArea}>
-        <Text style={styles.livePlaceholder}>📡 بث مباشر</Text>
+        <View style={styles.livePlaceholderContainer}>
+          <Ionicons name="radio-outline" size={48} color={COLORS.textMuted} />
+          <Text style={styles.livePlaceholder}>بث مباشر</Text>
+        </View>
         <View style={styles.topBar}>
           <View style={styles.liveBadge}>
             <View style={styles.liveDot} />
             <Text style={styles.liveText}>مباشر</Text>
           </View>
-          <Text style={styles.stats}>
-            👁 {viewerCount} • ⏱ {duration}
-          </Text>
+          <View style={styles.statsContainer}>
+            <View style={styles.statItem}>
+              <Ionicons name="eye-outline" size={14} color={COLORS.white} />
+              <Text style={styles.statsText}>{viewerCount}</Text>
+            </View>
+            <Text style={styles.statsDivider}>•</Text>
+            <View style={styles.statItem}>
+              <Ionicons name="time-outline" size={14} color={COLORS.white} />
+              <Text style={styles.statsText}>{duration}</Text>
+            </View>
+          </View>
         </View>
       </View>
 
@@ -84,22 +96,35 @@ export default function HostRoomScreen() {
           textAlign="right"
         />
         <TouchableOpacity style={styles.sendBtn} onPress={handleSend}>
-          <Text>📤</Text>
+          <Ionicons
+            name="send"
+            size={16}
+            color={COLORS.white}
+            style={styles.sendIcon}
+          />
         </TouchableOpacity>
       </View>
 
       <View style={styles.bottomControls}>
         <TouchableOpacity style={styles.controlBtn}>
-          <Text style={styles.controlIcon}>🎤</Text>
+          <Ionicons name="mic-outline" size={24} color={COLORS.textPrimary} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.controlBtn}>
-          <Text style={styles.controlIcon}>📷</Text>
+          <Ionicons
+            name="camera-outline"
+            size={24}
+            color={COLORS.textPrimary}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.controlBtn}
           onPress={() => router.push("/chat-moderation")}
         >
-          <Text style={styles.controlIcon}>🛡️</Text>
+          <Ionicons
+            name="shield-checkmark-outline"
+            size={24}
+            color={COLORS.textPrimary}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.endBtn}
@@ -120,7 +145,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  livePlaceholder: { color: COLORS.textMuted, fontSize: FONT_SIZES.xl },
+  livePlaceholderContainer: {
+    alignItems: "center",
+    gap: SPACING.xs,
+  },
+  livePlaceholder: { color: COLORS.textMuted, fontSize: FONT_SIZES.lg },
   topBar: {
     position: "absolute",
     top: SPACING["5xl"],
@@ -146,14 +175,21 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.white,
   },
   liveText: { color: COLORS.white, fontSize: FONT_SIZES.xs, fontWeight: "700" },
-  stats: {
-    color: COLORS.white,
-    fontSize: FONT_SIZES.sm,
+  statsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: SPACING.sm,
     backgroundColor: "rgba(0,0,0,0.5)",
     paddingHorizontal: SPACING.md,
     paddingVertical: SPACING.xs,
     borderRadius: BORDER_RADIUS.full,
   },
+  statItem: { flexDirection: "row", alignItems: "center", gap: 4 },
+  statsText: {
+    color: COLORS.white,
+    fontSize: FONT_SIZES.sm,
+  },
+  statsDivider: { color: COLORS.white, opacity: 0.5 },
   chatList: { flex: 1, padding: SPACING.md },
   chatMsg: {
     flexDirection: "row",
@@ -191,7 +227,9 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     justifyContent: "center",
     alignItems: "center",
+    paddingLeft: 4,
   },
+  sendIcon: { marginLeft: -2 },
   bottomControls: {
     flexDirection: "row",
     justifyContent: "center",
@@ -210,7 +248,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  controlIcon: { fontSize: 20 },
   endBtn: {
     backgroundColor: COLORS.live,
     paddingVertical: SPACING.sm,

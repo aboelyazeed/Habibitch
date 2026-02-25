@@ -14,6 +14,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 
 export default function VerifyEmailScreen() {
@@ -35,7 +36,12 @@ export default function VerifyEmailScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.emoji}>📧</Text>
+        <Ionicons
+          name="mail-unread-outline"
+          size={64}
+          color={COLORS.primaryLight}
+          style={styles.emoji}
+        />
         <Text style={styles.title}>{t("auth.verifyEmail")}</Text>
         <Text style={styles.subtitle}>{t("auth.verifyEmailDesc")}</Text>
 
@@ -76,7 +82,7 @@ const styles = StyleSheet.create({
     padding: SPACING["2xl"],
   },
   content: { alignItems: "center", gap: SPACING.xl },
-  emoji: { fontSize: 64 },
+  emoji: { marginBottom: -SPACING.md },
   title: {
     fontSize: FONT_SIZES["2xl"],
     fontWeight: "700",

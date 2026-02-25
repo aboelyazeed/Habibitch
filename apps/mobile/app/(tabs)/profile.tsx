@@ -15,6 +15,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../../src/i18n";
 import { useAuthStore, MOCK_CURRENT_USER } from "../../src/store";
 
@@ -27,7 +28,12 @@ export default function ProfileScreen() {
     return (
       <View style={styles.container}>
         <View style={styles.loginPrompt}>
-          <Text style={styles.loginIcon}>👤</Text>
+          <Ionicons
+            name="person-circle-outline"
+            size={64}
+            color={COLORS.textMuted}
+            style={styles.loginIcon}
+          />
           <Text style={styles.loginTitle}>سجل دخولك لعرض ملفك</Text>
           <TouchableOpacity
             style={styles.primaryBtn}
@@ -45,7 +51,11 @@ export default function ProfileScreen() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>{t("nav.profile")}</Text>
         <TouchableOpacity onPress={() => router.push("/settings")}>
-          <Text style={styles.settingsIcon}>⚙️</Text>
+          <Ionicons
+            name="settings-outline"
+            size={24}
+            color={COLORS.textPrimary}
+          />
         </TouchableOpacity>
       </View>
 
@@ -73,25 +83,42 @@ export default function ProfileScreen() {
 
       <View style={styles.menuSection}>
         {[
-          { icon: "💰", label: t("wallet.title"), route: "/wallet" },
           {
-            icon: "🔔",
+            icon: "wallet-outline",
+            label: t("wallet.title"),
+            route: "/wallet",
+          },
+          {
+            icon: "notifications-outline",
             label: t("notifications.title"),
             route: "/notifications",
           },
-          { icon: "⚙️", label: t("settings.title"), route: "/settings" },
-          { icon: "🚫", label: t("settings.blocked"), route: "/blocked-users" },
+          {
+            icon: "settings-outline",
+            label: t("settings.title"),
+            route: "/settings",
+          },
+          {
+            icon: "ban-outline",
+            label: t("settings.blocked"),
+            route: "/blocked-users",
+          },
         ].map((item) => (
           <TouchableOpacity
             key={item.route}
             style={styles.menuItem}
-            onPress={() => router.push(item.route as any)}
+            // @ts-ignore
+            onPress={() => router.push(item.route)}
           >
             <View style={styles.menuLeft}>
-              <Text style={styles.menuIcon}>{item.icon}</Text>
+              <Ionicons
+                name={item.icon as keyof typeof Ionicons.glyphMap}
+                size={22}
+                color={COLORS.textSecondary}
+              />
               <Text style={styles.menuLabel}>{item.label}</Text>
             </View>
-            <Text style={styles.menuArrow}>‹</Text>
+            <Ionicons name="chevron-back" size={24} color={COLORS.textMuted} />
           </TouchableOpacity>
         ))}
       </View>
@@ -125,7 +152,6 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: COLORS.textPrimary,
   },
-  settingsIcon: { fontSize: 24 },
   loginPrompt: {
     flex: 1,
     justifyContent: "center",
@@ -133,7 +159,7 @@ const styles = StyleSheet.create({
     gap: SPACING.lg,
     padding: SPACING.xl,
   },
-  loginIcon: { fontSize: 48 },
+  loginIcon: { marginBottom: -SPACING.sm },
   loginTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -210,9 +236,7 @@ const styles = StyleSheet.create({
     borderRadius: BORDER_RADIUS.md,
   },
   menuLeft: { flexDirection: "row", alignItems: "center", gap: SPACING.md },
-  menuIcon: { fontSize: 20 },
   menuLabel: { fontSize: FONT_SIZES.base, color: COLORS.textPrimary },
-  menuArrow: { fontSize: FONT_SIZES.xl, color: COLORS.textMuted },
   logoutBtn: {
     marginHorizontal: SPACING.lg,
     marginTop: SPACING.xl,

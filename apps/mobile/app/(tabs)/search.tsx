@@ -9,6 +9,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../../src/theme";
 import { t } from "../../src/i18n";
 import { MOCK_STREAMS } from "../../src/store";
@@ -33,7 +34,11 @@ export default function SearchScreen() {
       </View>
 
       <View style={styles.searchBar}>
-        <Text style={styles.searchIcon}>🔍</Text>
+        <Ionicons
+          name="search-outline"
+          size={20}
+          color={COLORS.textSecondary}
+        />
         <TextInput
           style={styles.searchInput}
           placeholder={t("search.placeholder")}
@@ -49,21 +54,29 @@ export default function SearchScreen() {
           <Text style={styles.sectionTitle}>{t("categories.title")}</Text>
           <View style={styles.categoryGrid}>
             {[
-              { icon: "🎮", name: "ألعاب", slug: "gaming" },
-              { icon: "📚", name: "تعليم", slug: "education" },
-              { icon: "🍳", name: "طبخ", slug: "cooking" },
-              { icon: "💻", name: "تكنولوجيا", slug: "technology" },
-              { icon: "⚽", name: "رياضة", slug: "sports" },
-              { icon: "🕌", name: "إسلامي", slug: "islamic" },
-              { icon: "🎨", name: "فن", slug: "art-design" },
-              { icon: "✈️", name: "سفر", slug: "travel" },
+              {
+                icon: "game-controller-outline",
+                name: "ألعاب",
+                slug: "gaming",
+              },
+              { icon: "book-outline", name: "تعليم", slug: "education" },
+              { icon: "restaurant-outline", name: "طبخ", slug: "cooking" },
+              { icon: "laptop-outline", name: "تكنولوجيا", slug: "technology" },
+              { icon: "football-outline", name: "رياضة", slug: "sports" },
+              { icon: "moon-outline", name: "إسلامي", slug: "islamic" },
+              { icon: "color-palette-outline", name: "فن", slug: "art-design" },
+              { icon: "airplane-outline", name: "سفر", slug: "travel" },
             ].map((cat) => (
               <TouchableOpacity
                 key={cat.slug}
                 style={styles.categoryCard}
                 onPress={() => router.push(`/category/${cat.slug}`)}
               >
-                <Text style={styles.categoryIcon}>{cat.icon}</Text>
+                <Ionicons
+                  name={cat.icon as keyof typeof Ionicons.glyphMap}
+                  size={28}
+                  color={COLORS.primaryLight}
+                />
                 <Text style={styles.categoryName}>{cat.name}</Text>
               </TouchableOpacity>
             ))}
@@ -71,7 +84,12 @@ export default function SearchScreen() {
         </View>
       ) : results.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyIcon}>🔍</Text>
+          <Ionicons
+            name="search-outline"
+            size={64}
+            color={COLORS.textMuted}
+            style={styles.emptyIcon}
+          />
           <Text style={styles.emptyText}>{t("search.noResults")}</Text>
         </View>
       ) : (
@@ -92,9 +110,16 @@ export default function SearchScreen() {
                   {item.title}
                 </Text>
                 <Text style={styles.resultCreator}>{item.creatorName}</Text>
-                <Text style={styles.resultViewers}>
-                  👁 {item.viewerCount.toLocaleString("ar-EG")}
-                </Text>
+                <View style={styles.viewersRow}>
+                  <Ionicons
+                    name="eye-outline"
+                    size={14}
+                    color={COLORS.textMuted}
+                  />
+                  <Text style={styles.resultViewers}>
+                    {item.viewerCount.toLocaleString("ar-EG")}
+                  </Text>
+                </View>
               </View>
             </TouchableOpacity>
           )}
@@ -128,7 +153,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: SPACING.md,
     gap: SPACING.sm,
   },
-  searchIcon: { fontSize: 18 },
   searchInput: {
     flex: 1,
     paddingVertical: SPACING.md,
@@ -153,7 +177,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: COLORS.border,
   },
-  categoryIcon: { fontSize: 28 },
   categoryName: {
     fontSize: FONT_SIZES.xs,
     color: COLORS.textSecondary,
@@ -165,7 +188,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: SPACING.md,
   },
-  emptyIcon: { fontSize: 48, opacity: 0.5 },
+  emptyIcon: { opacity: 0.5, marginBottom: -SPACING.sm },
   emptyText: { fontSize: FONT_SIZES.base, color: COLORS.textMuted },
   list: { paddingHorizontal: SPACING.lg, gap: SPACING.md },
   resultCard: {
@@ -193,9 +216,14 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     textAlign: "right",
   },
+  viewersRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 4,
+  },
   resultViewers: {
     fontSize: FONT_SIZES.xs,
     color: COLORS.textMuted,
-    textAlign: "right",
   },
 });

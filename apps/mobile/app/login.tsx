@@ -17,6 +17,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 import { useAuthStore } from "../src/store";
 
@@ -42,7 +43,7 @@ export default function LoginScreen() {
       >
         <View style={styles.header}>
           <View style={styles.iconCircle}>
-            <Text style={styles.iconText}>📡</Text>
+            <Ionicons name="radio-outline" size={32} color={COLORS.white} />
           </View>
           <Text style={styles.brand}>حبيبي ستريم</Text>
           <Text style={styles.title}>{t("auth.loginTitle")}</Text>
@@ -137,7 +138,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     ...SHADOWS.glow,
   },
-  iconText: { fontSize: 28 },
   brand: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "800",

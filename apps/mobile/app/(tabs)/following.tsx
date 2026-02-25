@@ -16,6 +16,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../../src/i18n";
 import { useStreamStore } from "../../src/store";
 
@@ -40,7 +41,12 @@ export default function FollowingScreen() {
         </View>
       ) : followedStreams.length === 0 ? (
         <View style={styles.empty}>
-          <Text style={styles.emptyIcon}>❤️</Text>
+          <Ionicons
+            name="heart-outline"
+            size={64}
+            color={COLORS.textMuted}
+            style={styles.emptyIcon}
+          />
           <Text style={styles.emptyTitle}>لا يوجد بثوث من متابعيك</Text>
           <Text style={styles.emptyDesc}>
             تابع منشئي المحتوى لرؤية بثوثهم هنا
@@ -74,9 +80,16 @@ export default function FollowingScreen() {
                     {item.title}
                   </Text>
                   <Text style={styles.creatorName}>{item.creatorName}</Text>
-                  <Text style={styles.viewers}>
-                    👁 {item.viewerCount.toLocaleString("ar-EG")}
-                  </Text>
+                  <View style={styles.viewersRow}>
+                    <Ionicons
+                      name="eye-outline"
+                      size={14}
+                      color={COLORS.textMuted}
+                    />
+                    <Text style={styles.viewers}>
+                      {item.viewerCount.toLocaleString("ar-EG")}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </TouchableOpacity>
@@ -109,7 +122,7 @@ const styles = StyleSheet.create({
     gap: SPACING.md,
     padding: SPACING.xl,
   },
-  emptyIcon: { fontSize: 48 },
+  emptyIcon: { marginBottom: -SPACING.sm, opacity: 0.5 },
   emptyTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -163,9 +176,14 @@ const styles = StyleSheet.create({
     color: COLORS.textSecondary,
     textAlign: "right",
   },
+  viewersRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 4,
+  },
   viewers: {
     fontSize: FONT_SIZES.xs,
     color: COLORS.textMuted,
-    textAlign: "right",
   },
 });

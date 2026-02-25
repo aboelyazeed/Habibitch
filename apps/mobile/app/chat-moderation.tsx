@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS } from "../src/theme";
 import { t } from "../src/i18n";
 import { MOCK_CHAT_MESSAGES } from "../src/store";
@@ -18,7 +19,12 @@ export default function ChatModerationScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Text style={styles.backIcon}>→</Text>
+          <Ionicons
+            name="arrow-back"
+            size={24}
+            color={COLORS.textPrimary}
+            style={styles.backIcon}
+          />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>{t("creator.moderate")}</Text>
         <View style={{ width: 24 }} />
@@ -35,13 +41,21 @@ export default function ChatModerationScreen() {
             </View>
             <View style={styles.actions}>
               <TouchableOpacity style={styles.actionBtn}>
-                <Text style={styles.actionIcon}>🗑</Text>
+                <Ionicons
+                  name="trash-outline"
+                  size={16}
+                  color={COLORS.textPrimary}
+                />
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionBtn}>
-                <Text style={styles.actionIcon}>⏸</Text>
+                <Ionicons
+                  name="pause-outline"
+                  size={16}
+                  color={COLORS.textPrimary}
+                />
               </TouchableOpacity>
               <TouchableOpacity style={[styles.actionBtn, styles.banBtn]}>
-                <Text style={styles.actionIcon}>🚫</Text>
+                <Ionicons name="ban-outline" size={16} color={COLORS.error} />
               </TouchableOpacity>
             </View>
           </View>
@@ -62,7 +76,7 @@ const styles = StyleSheet.create({
     paddingTop: SPACING["5xl"],
     paddingBottom: SPACING.md,
   },
-  backIcon: { fontSize: FONT_SIZES.xl, color: COLORS.textPrimary },
+  backIcon: { marginRight: SPACING.sm },
   headerTitle: {
     fontSize: FONT_SIZES.xl,
     fontWeight: "700",
@@ -102,5 +116,4 @@ const styles = StyleSheet.create({
     borderColor: COLORS.border,
   },
   banBtn: { borderColor: COLORS.error },
-  actionIcon: { fontSize: 14 },
 });

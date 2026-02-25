@@ -15,6 +15,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../src/i18n";
 
 export default function CreateProfileScreen() {
@@ -32,7 +33,11 @@ export default function CreateProfileScreen() {
 
       <TouchableOpacity style={styles.avatarContainer}>
         <View style={styles.avatarPlaceholder}>
-          <Text style={styles.avatarIcon}>📷</Text>
+          <Ionicons
+            name="camera-outline"
+            size={40}
+            color={COLORS.primaryLight}
+          />
         </View>
         <Text style={styles.uploadText}>{t("auth.uploadAvatar")}</Text>
       </TouchableOpacity>
@@ -103,7 +108,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  avatarIcon: { fontSize: 40 },
   uploadText: {
     color: COLORS.primaryLight,
     fontSize: FONT_SIZES.sm,

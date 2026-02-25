@@ -2,22 +2,22 @@
 export const COLORS = {
   // Backgrounds
   bgPrimary: "#09090b",
-  bgSecondary: "#111114",
-  bgCard: "#16161e",
-  bgCardHover: "#1e1e2a",
-  bgElevated: "#1a1a2e",
-  bgInput: "#1c1c28",
+  bgSecondary: "#121217",
+  bgCard: "#181824",
+  bgCardHover: "#20202e",
+  bgElevated: "#1c1c2a",
+  bgInput: "#1e1e2d",
   bgOverlay: "rgba(9, 9, 11, 0.85)",
 
   // Accent
-  primary: "#a855f7",
-  primaryLight: "#c084fc",
-  primaryDark: "#7c3aed",
-  primaryGlow: "rgba(168, 85, 247, 0.25)",
+  primary: "#9d4edd",
+  primaryLight: "#c77dff",
+  primaryDark: "#7b2cbf",
+  primaryGlow: "rgba(157, 78, 221, 0.3)",
   secondary: "#00bfa6",
   secondaryLight: "#34d399",
-  accentGold: "#f5a623",
-  accentGoldLight: "#fbbf24",
+  accentGold: "#fbbf24",
+  accentGoldLight: "#fcd34d",
 
   // Status
   live: "#ff4757",
@@ -58,11 +58,11 @@ export const SPACING = {
 };
 
 export const BORDER_RADIUS = {
-  sm: 6,
-  md: 10,
-  lg: 14,
-  xl: 20,
-  "2xl": 28,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 24,
+  "2xl": 32,
   full: 9999,
 };
 
@@ -90,30 +90,30 @@ export const FONT_WEIGHTS = {
 export const SHADOWS = {
   sm: {
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 3,
-    elevation: 2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 3,
   },
   md: {
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 12,
-    elevation: 4,
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
+    elevation: 5,
   },
   lg: {
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.6,
-    shadowRadius: 30,
-    elevation: 8,
+    shadowOpacity: 0.4,
+    shadowRadius: 20,
+    elevation: 10,
   },
   glow: {
-    shadowColor: COLORS.primary,
+    shadowColor: "#9d4edd",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.25,
-    shadowRadius: 20,
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
     elevation: 6,
   },
 };

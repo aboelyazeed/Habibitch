@@ -16,6 +16,7 @@ import {
   BORDER_RADIUS,
   SHADOWS,
 } from "../../src/theme";
+import { Ionicons } from "@expo/vector-icons";
 import { t } from "../../src/i18n";
 import { useStreamStore } from "../../src/store";
 
@@ -32,8 +33,9 @@ function StreamCard({ stream }: { stream: any }) {
           <Text style={styles.liveBadgeText}>{t("stream.live")}</Text>
         </View>
         <View style={styles.viewerBadge}>
+          <Ionicons name="eye-outline" size={12} color={COLORS.white} />
           <Text style={styles.viewerText}>
-            👁 {stream.viewerCount.toLocaleString("ar-EG")}
+            {stream.viewerCount.toLocaleString("ar-EG")}
           </Text>
         </View>
       </View>
@@ -49,7 +51,12 @@ function StreamCard({ stream }: { stream: any }) {
           <View style={styles.creatorRow}>
             <Text style={styles.creatorName}>{stream.creatorName}</Text>
             {stream.isCreatorVerified && (
-              <Text style={styles.verifiedBadge}>✓</Text>
+              <Ionicons
+                name="checkmark-circle"
+                size={14}
+                color={COLORS.primary}
+                style={styles.verifiedBadge}
+              />
             )}
           </View>
           <Text style={styles.categoryText}>{stream.categoryName}</Text>
@@ -73,7 +80,11 @@ export default function HomeScreen() {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>حبيبي ستريم</Text>
         <TouchableOpacity onPress={() => router.push("/notifications")}>
-          <Text style={styles.bellIcon}>🔔</Text>
+          <Ionicons
+            name="notifications-outline"
+            size={24}
+            color={COLORS.textPrimary}
+          />
         </TouchableOpacity>
       </View>
 
@@ -119,7 +130,6 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: COLORS.primaryLight,
   },
-  bellIcon: { fontSize: 24 },
   tabs: {
     flexDirection: "row",
     paddingHorizontal: SPACING.lg,
@@ -180,8 +190,11 @@ const styles = StyleSheet.create({
     left: SPACING.sm,
     backgroundColor: "rgba(0,0,0,0.7)",
     paddingHorizontal: SPACING.sm,
-    paddingVertical: 2,
+    paddingVertical: 4,
     borderRadius: BORDER_RADIUS.sm,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
   viewerText: { color: COLORS.white, fontSize: FONT_SIZES.xs },
   cardInfo: { flexDirection: "row", padding: SPACING.md, gap: SPACING.md },
@@ -206,11 +219,7 @@ const styles = StyleSheet.create({
   },
   creatorName: { fontSize: FONT_SIZES.xs, color: COLORS.textSecondary },
   verifiedBadge: {
-    fontSize: 10,
-    color: COLORS.primary,
-    backgroundColor: COLORS.primaryGlow,
-    paddingHorizontal: 4,
-    borderRadius: 4,
+    marginLeft: 2,
   },
   categoryText: {
     fontSize: FONT_SIZES.xs,
