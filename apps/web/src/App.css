@@ -1,0 +1,15 @@
+.app-main {
+  padding-top: var(--navbar-height);
+  min-height: 100vh;
+  transition: margin-right var(--transition-base);
+}
+
+.app-main-full {
+  margin-right: 0 !important;
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    margin-right: 0 !important;
+  }
+}

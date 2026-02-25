@@ -1,0 +1,56 @@
+export const GIFT_TIERS = [
+  { id: "rose", name: "Rose", nameAr: "وردة", cost: 1, icon: "🌹" },
+  { id: "coffee", name: "Coffee", nameAr: "قهوة", cost: 5, icon: "☕" },
+  { id: "star", name: "Star", nameAr: "نجمة", cost: 10, icon: "⭐" },
+  { id: "diamond", name: "Diamond", nameAr: "ماسة", cost: 50, icon: "💎" },
+  { id: "crown", name: "Crown", nameAr: "تاج", cost: 100, icon: "👑" },
+  { id: "rocket", name: "Rocket", nameAr: "صاروخ", cost: 500, icon: "🚀" },
+  { id: "castle", name: "Castle", nameAr: "قلعة", cost: 1000, icon: "🏰" },
+] as const;
+
+export const CURRENCY_PACKAGES = [
+  {
+    id: "starter",
+    name: "100 Coins",
+    nameAr: "100 عملة",
+    amount: 100,
+    price: 0.99,
+    currency: "USD",
+  },
+  {
+    id: "basic",
+    name: "500 Coins",
+    nameAr: "500 عملة",
+    amount: 500,
+    price: 4.99,
+    currency: "USD",
+  },
+  {
+    id: "popular",
+    name: "1,200 Coins",
+    nameAr: "1,200 عملة",
+    amount: 1200,
+    price: 9.99,
+    currency: "USD",
+    isPopular: true,
+    bonus: 200,
+  },
+  {
+    id: "premium",
+    name: "3,000 Coins",
+    nameAr: "3,000 عملة",
+    amount: 3000,
+    price: 24.99,
+    currency: "USD",
+    bonus: 500,
+  },
+  {
+    id: "elite",
+    name: "7,500 Coins",
+    nameAr: "7,500 عملة",
+    amount: 7500,
+    price: 49.99,
+    currency: "USD",
+    bonus: 1500,
+  },
+] as const;

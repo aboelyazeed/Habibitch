@@ -1,0 +1,578 @@
+in this project i need you to create mobile and web apps for the live streaming platform, i will send you the next:
+PRD
+Mobil & web Screens
+project id for stitch screens -> use it for inspiration only for the main theme
+project folder structure
+the technology we need to use.
+
+you can ask me qustions for clearifying if you need.
+
+PRD:
+## 1. Overview
+
+**Habibi Stream** is an **Arabic-first** live-streaming platform for the **MENA region** focused on **family-friendly, halal** content. The initial release supports **streaming only** (no VOD/clips). Users can watch live streams, interact via chat and reactions, and financially support creators through subscriptions, tips, and virtual gifts using a platform currency. The product launches as a **closed beta** across **mobile (React Native)** and **web**.
+
+## 2. Problem Statement
+
+Arabic-speaking audiences in MENA lack a mainstream live-streaming platform that is:
+
+* **Culturally aligned** with **halal, family-friendly** expectations, and
+* **Designed primarily for Arabic** discovery, community interaction, and creator growth.
+
+Existing platforms are either not tailored for Arabic-first experiences, or they include/enable content and community norms that conflict with the desired family-friendly/halal positioning.
+
+## 3. Goals and Non-Goals
+
+### Goals
+
+1. Enable users in MENA to **discover and watch halal, family-friendly live streams in Arabic**.
+2. Enable creators to **go live from a phone camera** with essential **chat moderation tools**.
+3. Provide core community mechanics: **follow, live chat, reactions**, and **basic discovery**.
+4. Enable creator monetization through:
+
+   * **Subscriptions**
+   * **Tips (donations)**
+   * **Virtual gifts** using **platform currency**
+5. Launch a **closed beta** with measurable retention, content supply, and safety outcomes.
+
+### Non-Goals (v1)
+
+1. No **VOD**, **clips**, or post-stream replay.
+2. No **music category** or music-focused streaming features.
+3. No copyright/DMCA-style workflows at launch.
+4. No advanced creator tooling (overlays marketplace, studios, multi-camera, etc.) unless explicitly required later.
+5. No final/locked creator revenue share policy in v1 (TBD).
+
+## 4. User Personas and Core Use Cases
+
+### Personas
+
+1. **Viewer (Family-Friendly Audience)**
+
+   * Arabic-speaking, wants safe entertainment/education.
+   * Values clear content standards and easy discovery.
+2. **Creator (Halal Content Streamer)**
+
+   * Streams halal content (e.g., gaming, talk, education, hobbies).
+   * Needs simple mobile streaming + tools to keep chat clean.
+3. **Moderator (Platform or Community Moderator)**
+
+   * Helps enforce halal/family-friendly rules in chat and streams.
+   * Needs reporting and enforcement tools (scope TBD).
+
+### Core Use Cases
+
+1. Viewer browses recommendations and starts watching a live stream.
+2. Viewer participates via **live chat** and **reactions**.
+3. Viewer **follows** a creator and receives relevant surfacing of live streams (mechanism TBD).
+4. Viewer supports a creator via **subscription**, **tip**, or **virtual gift**.
+5. Creator starts a stream from phone camera, manages chat with moderation controls, and ends stream.
+
+## 5. Functional Requirements
+
+(“System shall…” statements are testable.)
+
+### 5.1 Account and Profile
+
+1. The system shall allow users to **register and log in using email**.
+2. The system shall allow users to create a **pseudonymous display name** that is shown publicly.
+3. The system shall provide user profiles that display:
+
+   * Display name
+   * Avatar (optional)
+   * Follower count
+   * Current live status (when applicable)
+
+### 5.2 Content Policy and Category Enforcement (Halal / Family Friendly)
+
+4. The system shall publish and require acceptance of **content guidelines** that prohibit:
+
+   * Adult/sexual content (+18)
+   * Music category/content (as defined by policy)
+   * Any other explicitly defined “haram” categories (to be enumerated in policy)
+5. The system shall require creators to select a **stream category** from an approved halal list before going live.
+6. The system shall prevent creators from selecting disallowed categories.
+
+> Note: Enforcement mechanisms (automation/human review) are not specified yet; see Constraints/Assumptions.
+
+### 5.3 Live Streaming (Creator)
+
+7. The system shall allow a creator to **start a live stream from a mobile phone camera**.
+8. The system shall allow a creator to **set a stream title** before going live.
+9. The system shall display a creator’s stream as **Live** within the app and web experience during the broadcast.
+10. The system shall allow a creator to **end the stream**.
+
+### 5.4 Live Viewing Experience (Viewer)
+
+11. The system shall allow viewers to **watch live streams** on mobile and web.
+12. The system shall show key stream metadata: creator name, title, category, live indicator, and viewer count (if available).
+13. The system shall support **search** to find creators and live streams by keywords (Arabic supported).
+
+### 5.5 Live Chat and Reactions
+
+14. The system shall provide **real-time live chat** for each live stream.
+15. The system shall allow viewers to send **reactions** during a live stream.
+16. The system shall allow users to **block** other users to stop seeing their chat messages (minimum safety baseline).
+
+### 5.6 Creator Chat Moderation Tools (v1 baseline)
+
+17. The system shall allow creators to:
+
+* Delete chat messages in their stream
+* Timeout/mute a user for a configurable duration
+* Ban a user from chat
+
+18. The system shall support a **chat rules** display (e.g., “Family friendly only”) visible to viewers in the chat interface.
+
+### 5.7 Discovery and Recommendations
+
+19. The system shall provide an **algorithmic recommendations feed** of live streams (“For You”-style) in Arabic UI.
+20. The system shall provide a **Following** view that surfaces live streams from followed creators.
+21. The system shall allow viewers to **follow/unfollow** creators.
+22. The system shall support category-based browsing limited to approved halal categories.
+
+### 5.8 Monetization
+
+#### Platform Currency
+
+23. The system shall support a **platform currency** wallet balance for each user.
+24. The system shall allow users to **purchase platform currency** via:
+
+* Mobile in-app purchase (where applicable)
+* External payments (where applicable)
+
+#### Virtual Gifts
+
+25. The system shall allow viewers to send **virtual gifts** to a creator during a live stream using platform currency.
+26. The system shall display gift events in the stream experience (viewer-visible acknowledgment).
+
+#### Tips (Donations)
+
+27. The system shall allow viewers to send **tips** using platform currency during a live stream.
+28. The system shall provide a confirmation step before completing a tip.
+
+#### Subscriptions
+
+29. The system shall allow viewers to **subscribe** to a creator using:
+
+* Platform currency and/or
+* App store subscriptions (where applicable)
+
+30. The system shall display subscriber status on the viewer’s account and in the creator’s subscriber list (basic view).
+
+> Revenue share, creator payouts, and thresholds are TBD and should be defined before broad launch.
+
+### 5.9 Reporting (Minimal v1)
+
+31. The system shall allow users to **report a stream** and **report a chat message** with selectable reasons aligned to the halal/family-friendly policy.
+32. The system shall acknowledge report submission and provide a reference ID.
+
+### 5.10 Admin / Operations (v1 minimal)
+
+33. The system shall provide an internal/admin capability to:
+
+* Disable a stream
+* Suspend a user
+* Review reports list (basic queue)
+
+(Workflow details TBD; the PRD requires capability, not implementation.)
+
+### 5.11 Partner / Verification (Optional v1)
+
+34. The system should support a **verified creator flag** that can be assigned by admins.
+35. The system should display verification status in creator profile and live stream UI.
+
+## 6. Non-Functional Requirements
+
+### Performance & Reliability
+
+1. The system shall support stable live playback on typical mobile networks in MENA (exact bitrate/quality targets TBD).
+2. The system shall target high availability during closed beta and provide monitoring/alerting (SLO targets TBD).
+
+### Scalability
+
+3. The system architecture shall support growth from closed beta to public launch without redesign of core user flows (specific scale targets TBD).
+
+### Security & Privacy
+
+4. The system shall protect user credentials and session tokens using industry-standard practices.
+5. The system shall support account recovery via email.
+6. The system shall log moderation and admin actions for auditability.
+
+### Localization & Accessibility
+
+7. The system UI shall be **Arabic-first** (RTL support where applicable) for mobile and web.
+8. The system shall support Arabic search input and display.
+
+## 7. Constraints and Assumptions
+
+### Constraints
+
+1. **Region**: MENA-first, Arabic-first product.
+2. **Platforms**: Mobile via **React Native** and **web**.
+3. **Content**: Strictly **family-friendly/halal**, no +18, no music category/content.
+4. **Scope**: Streaming only in v1; no VOD/clips.
+5. **Launch**: Closed beta.
+
+### Assumptions (explicitly TBD)
+
+1. Moderation approach (proactive vs reactive) is **not yet defined**.
+2. Target stream quality, latency expectations, and device/network minimums are **not yet defined**.
+3. Creator payout model and revenue split are **not yet defined**.
+4. Compliance/regulatory requirements per MENA country are **not yet defined**.
+
+## 8. Out of Scope
+
+1. VOD, clips, highlights, or replay.
+2. Music streaming features and music category.
+3. Copyright/DMCA takedown workflows and appeals.
+4. Advanced creator tooling (overlay editor, scenes, RTMP ingest, co-stream, guest streams) unless later prioritized.
+5. Full-fledged creator marketplace (sponsorships, brand deals).
+6. Full parental control suite (beyond family-friendly policy) unless later required.
+
+## 9. Success Metrics
+
+### Closed Beta Activation & Retention
+
+1. **Viewer activation**: % of new users who watch ≥ 5 minutes of live content within 24 hours of signup.
+2. **Creator activation**: % of approved creators who successfully go live within 7 days of signup.
+3. **D7 retention**: % of viewers returning on day 7.
+4. **Weekly active viewers (WAV)** and **weekly active creators (WAC)**.
+
+### Content Supply & Engagement
+
+5. Avg **daily hours streamed** per active creator.
+6. Avg **concurrent viewers** per stream (median and p90).
+7. Chat participation rate: % of viewers sending ≥1 message per session.
+8. Follows per viewer per week.
+
+### Monetization (Beta Readiness)
+
+9. Conversion rate to first purchase of platform currency.
+10. ARPPU (average revenue per paying user) during beta.
+11. Gift/tip frequency per 100 viewing hours.
+12. Subscription conversion rate per active viewer.
+
+### Trust & Safety (Family-Friendly/Halal)
+
+13. Reports per 1,000 viewing hours (stream + chat).
+14. Median time-to-action on reports (if moderation workflow exists).
+15. Repeat offender rate (users reported multiple times within 30 days).
+
+
+Platform Screens:
+# A) Mobile App Screens
+
+## A1) Viewer & General (MVP)
+
+1. **Splash / Loading**
+2. **Welcome** (Login entry point)
+3. **Login (Email)**
+4. **Sign Up (Email)**
+5. **Email Verification / Confirm Email** *(if you require verification)*
+6. **Create Profile** (display name, avatar optional)
+7. **Home – For You (Live Feed / Recommendations)**
+8. **Following (Live Feed from followed creators)**
+9. **Search** (search field + results)
+10. **Category Browse** (halal categories list)
+11. **Category Results** (streams in selected category)
+12. **Live Player** (video + stream info)
+13. **Live Chat (within Live Player)** *(can be a tab/panel, still a “screen state”)*
+14. **Gift / Tip Send** (gift picker + amount confirm)
+15. **Purchase Currency / Wallet Top-up**
+16. **Transaction Success / Receipt** (confirmation after purchase or gift/tip)
+17. **Creator Profile** (view creator, follow, subscribe)
+18. **My Profile** (your profile)
+19. **Settings**
+20. **Report** (report stream or message + reason select)
+21. **Blocked Users** (manage blocks)
+22. **Notifications** *(optional for MVP; recommended if you plan any alerts)*
+
+**MVP mobile viewer subtotal:** **21–22 screens** (depending on email verification + notifications)
+
+---
+
+## A2) Creator (MVP)
+
+23. **Go Live – Setup** (title, category, basic settings)
+24. **Go Live – Camera Preview** (before starting)
+25. **Live Host Room** (while live: viewer count, chat, end stream)
+26. **Chat Moderation Actions** (timeout/ban/delete) *(can be a bottom sheet modal, but still designable UI)*
+
+**MVP mobile creator subtotal:** **4 screens**
+
+✅ **Total Mobile MVP:** **25–26 screens**
+
+---
+
+## A3) Admin/Operations (Mobile)
+
+For closed beta, admins usually use web. If you *must* include admin on mobile:
+
+* **Admin Report Queue**
+* **Admin User Detail**
+* **Admin Stream Actions**
+
+I recommend **web-only** for admin in beta.
+
+---
+
+# B) Web Screens
+
+Web should mirror viewer features + basic creator start (if creators can stream from web later). Since your v1 creator streaming is from **phone camera**, web can be **viewer-first** in beta.
+
+## B1) Viewer & General (MVP)
+
+1. **Landing / Home (For You Live Feed)**
+2. **Login**
+3. **Sign Up**
+4. **Create Profile**
+5. **Following**
+6. **Search**
+7. **Category Browse**
+8. **Category Results**
+9. **Live Watch Page** (video + chat panel)
+10. **Creator Profile Page**
+11. **My Profile**
+12. **Wallet / Buy Currency**
+13. **Gift/Tip Modal** (overlay on Live page)
+14. **Subscription Purchase Modal/Page**
+15. **Settings**
+16. **Report Modal/Page**
+17. **Blocked Users**
+
+✅ **Total Web MVP:** **17 screens/pages** (counting modals as designable states)
+
+---
+
+## B2) Admin Console (Recommended for Beta)
+
+This is important because you said moderation approach isn’t defined yet—but you *will* need basic enforcement in beta.
+
+18. **Admin Login**
+19. **Admin Dashboard**
+20. **Reports Queue**
+21. **Report Detail** (stream/message context + action)
+22. **User Detail** (suspend/unsuspend)
+23. **Stream Detail** (disable stream)
+24. **Verified Creator Management** *(optional)*
+
+✅ **Admin Web:** **6–7 pages**
+
+✅ **Total Web MVP (including Admin):** **23–24 pages**
+
+---
+
+# C) Recommended “Still MVP” Enhancements (avoid gaps)
+
+These add clarity and reduce support load in beta.
+
+### Mobile (Recommended additions)
+
+* **Content Guidelines / Community Rules** (during onboarding + in settings)
+* **Help / Support / FAQ**
+* **Subscription Management** (see active subs, cancel instructions)
+* **Wallet History** (transactions list)
+
+Adds **3–4 screens**.
+
+### Web (Recommended additions)
+
+* **Content Guidelines**
+* **Help / FAQ**
+* **Wallet History**
+
+Adds **2–3 pages**.
+
+
+list_screens and get_screen in stitch project 2964116560630438888
+
+
+folder structure:
+## Recommended monorepo structure (best overall)
+
+```
+habibi-stream/
+├─ apps/
+│  ├─ mobile/                  # React Native app (iOS/Android)
+│  │  ├─ src/
+│  │  │  ├─ app/               # navigation + app shell
+│  │  │  ├─ screens/           # UI screens (mapped from your screen list)
+│  │  │  ├─ components/        # mobile-only components
+│  │  │  ├─ features/          # feature modules (auth, live, chat, wallet)
+│  │  │  ├─ services/          # API clients, websocket client
+│  │  │  ├─ state/             # app state (store)
+│  │  │  ├─ hooks/
+│  │  │  ├─ i18n/              # Arabic strings, RTL helpers
+│  │  │  ├─ theme/
+│  │  │  └─ utils/
+│  │  ├─ assets/
+│  │  └─ tests/
+│  │
+│  ├─ web/                     # Web app (viewer + creator if needed)
+│  │  ├─ src/
+│  │  │  ├─ app/ or pages/     # router shell
+│  │  │  ├─ screens/           # page-level UI
+│  │  │  ├─ components/
+│  │  │  ├─ features/
+│  │  │  ├─ services/          # API clients, websocket client
+│  │  │  ├─ state/
+│  │  │  ├─ i18n/              # Arabic/RTL
+│  │  │  ├─ styles/
+│  │  │  └─ utils/
+│  │  ├─ public/
+│  │  └─ tests/
+│  │
+│  ├─ admin/                   # Admin console (web)
+│  │  ├─ src/
+│  │  │  ├─ screens/           # reports queue, user detail, stream actions
+│  │  │  ├─ components/
+│  │  │  ├─ features/
+│  │  │  └─ services/
+│  │  └─ tests/
+│  │
+│  └─ api/                     # Backend API entrypoint (REST/GraphQL)
+│     ├─ src/
+│     │  ├─ modules/           # bounded modules (auth, streams, chat, wallet)
+│     │  ├─ common/            # shared server utils, middleware, guards
+│     │  ├─ config/
+│     │  ├─ db/
+│     │  │  ├─ migrations/
+│     │  │  └─ seeds/
+│     │  ├─ integrations/      # payment, email, storage, streaming provider
+│     │  ├─ realtime/          # websocket gateway (chat/reactions)
+│     │  └─ main.*             # bootstrap
+│     └─ tests/
+│
+├─ services/
+│  ├─ worker/                  # background jobs (payout calc, moderation queue)
+│  │  ├─ src/
+│  │  └─ tests/
+│  └─ media/                   # optional: media/stream orchestration service
+│     ├─ src/
+│     └─ tests/
+│
+├─ packages/
+│  ├─ ui/                      # shared design system (cross-platform primitives)
+│  │  ├─ src/
+│  │  └─ README.md
+│  ├─ shared/                  # pure shared utilities used everywhere
+│  │  ├─ src/
+│  │  │  ├─ constants/
+│  │  │  ├─ validators/
+│  │  │  ├─ formatters/
+│  │  │  └─ halal-policy/      # policy helpers/enums (no business logic leakage)
+│  │  └─ tests/
+│  ├─ types/                   # shared TypeScript types + API contracts
+│  │  ├─ src/
+│  │  │  ├─ api/               # DTOs, request/response types
+│  │  │  ├─ domain/            # core domain types (User, Stream, Gift)
+│  │  │  └─ events/            # realtime event payloads (chat, reactions)
+│  │  └─ README.md
+│  ├─ config/                  # shared lint/ts/prettier configs
+│  └─ sdk/                     # optional: typed API client used by web/mobile
+│     ├─ src/
+│     └─ README.md
+│
+├─ infra/
+│  ├─ docker/                  # local dev compose, service containers
+│  ├─ k8s/ or terraform/        # deployment manifests (if used)
+│  └─ env/                     # environment templates (non-secret)
+│
+├─ scripts/                    # repo automation (release, seed, lint)
+├─ docs/
+│  ├─ prd/
+│  ├─ api/
+│  ├─ architecture/
+│  └─ runbooks/
+│
+├─ .github/ or .gitlab/        # CI pipelines, actions
+├─ .editorconfig
+├─ package.json                # workspace root
+├─ pnpm-workspace.yaml / yarn workspaces
+├─ turbo.json / nx.json        # monorepo build orchestration (optional)
+└─ README.md
+```
+
+---
+
+## Why this structure works (quick rationale)
+
+* **apps/** = “things users run” (mobile, web, admin, api)
+* **services/** = backend sidecars that scale independently (workers, media)
+* **packages/** = shared code (UI primitives, types, utils, SDK)
+* **infra/** = deployment and local environment scaffolding
+* Keeps **domain types/contracts centralized** to prevent drift between mobile/web/backend
+* Keeps **admin isolated** so it doesn’t pollute user-facing web logic
+
+---
+
+## Feature module pattern (recommended for your screens)
+
+Inside `apps/mobile/src/features/` and `apps/web/src/features/`:
+
+```
+features/
+├─ auth/
+├─ live/
+├─ chat/
+├─ discovery/
+├─ wallet/
+├─ gifting/
+├─ subscriptions/
+├─ profile/
+└─ reports/
+```
+
+Each feature can contain:
+
+* `components/`, `hooks/`, `services/`, `state/`, `types.ts`, `selectors.ts`
+  This keeps the codebase aligned with product areas (streams/chat/wallet).
+
+---
+
+## Backend module pattern (aligned with PRD)
+
+Inside `apps/api/src/modules/`:
+
+```
+modules/
+├─ auth/
+├─ users/
+├─ streams/
+├─ chat/
+├─ discovery/
+├─ wallet/
+├─ gifting/
+├─ subscriptions/
+├─ reports/
+├─ moderation/
+└─ admin/
+```
+
+technologies:
+Here is the comprehensive architectural blueprint and phased plan for building a top-tier live streaming application.
+
+## The "Best of the Best" Technology Stack
+
+### 1. Mobile Frontend: React Native -> web React
+
+For the mobile client, React Native is an exceptionally strong choice. It allows for rapid feature iteration across both iOS and Android from a single codebase. Crucially, it provides the capability to drop down into native code via bridging when absolute maximum performance is needed, allowing you to easily integrate highly optimized, low-level native video player SDKs directly into the app.
+
+### 2. Backend Application Layer: Node.js
+
+Live streaming apps require a backend that can handle thousands of concurrent, I/O-heavy requests, especially for real-time events. Node.js is the perfect engine here. Its event-driven, non-blocking architecture is tailor-made for managing high volumes of concurrent WebSocket connections, which you will absolutely need for the chat and live notification systems.
+
+### 3. Database & Caching Strategy
+
+A robust, hybrid data layer is critical to prevent bottlenecks under sudden heavy loads:
+
+* **Primary Relational Database (PostgreSQL):** Battle-tested, highly reliable, and perfect for managing complex structured data like user profiles, channel subscriptions, follower graphs, and financial transactions.
+* **In-Memory Cache (Redis):** Essential for pub/sub messaging (routing real-time chat messages to the right stream rooms) and caching highly requested volatile data, like live viewer counts and active stream lists.
+* **Chat Log Storage (NoSQL):** A document database like MongoDB or Amazon DynamoDB to handle the massive, unstructured, high-velocity write volume of live chat logs without locking up your primary PostgreSQL database.
+
+### 4. Streaming Infrastructure: Amazon IVS (Interactive Video Service)
+
+Do not build your own video ingestion and transcoding pipeline from scratch using raw servers and FFmpeg unless you want an endless maintenance nightmare. To get "the best," you must use a managed service.
+
+* **The Solution:** Amazon IVS is literally the underlying technology that powers Twitch, packaged as an AWS service. It provides broadcast-grade RTMP ingestion, handles all adaptive bitrate transcoding on the fly, and distributes the video globally via a custom CDN for massive scale. It offers broadcast latency (under 3 seconds) or real-time latency (under 300ms using WebRTC primitives).

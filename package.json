@@ -1,0 +1,27 @@
+{
+  "name": "habibi-stream",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Habibi Stream — Arabic-first live-streaming platform for the MENA region",
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=@habibi/web",
+    "dev:mobile": "turbo run dev --filter=@habibi/mobile",
+    "dev:admin": "turbo run dev --filter=@habibi/admin",
+    "dev:api": "turbo run dev --filter=@habibi/api",
+    "build": "turbo run build",
+    "build:web": "turbo run build --filter=@habibi/web",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rimraf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.4.0",
+    "rimraf": "^6.0.0",
+    "typescript": "^5.7.0"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
