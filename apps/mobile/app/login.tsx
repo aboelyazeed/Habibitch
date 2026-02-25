@@ -24,12 +24,16 @@ import { useAuthStore } from "../src/store";
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoading } = useAuthStore();
+  const { login, isLoading, error } = useAuthStore();
   const router = useRouter();
 
-  const handleLogin = () => {
-    login(email, password);
-    setTimeout(() => router.replace("/(tabs)/home"), 900);
+  const handleLogin = async () => {
+    try {
+      await login(email, password);
+      router.replace("/(tabs)/home");
+    } catch (err) {
+      // Error is handled by the store, we could show an alert or let the UI display the error state
+    }
   };
 
   return (
@@ -48,6 +52,11 @@ export default function LoginScreen() {
           <Text style={styles.brand}>حبيبي ستريم</Text>
           <Text style={styles.title}>{t("auth.loginTitle")}</Text>
           <Text style={styles.subtitle}>{t("auth.welcomeSubtitle")}</Text>
+          {error && (
+            <Text style={{ color: "#ef4444", marginTop: SPACING.md }}>
+              {error}
+            </Text>
+          )}
         </View>
 
         <View style={styles.form}>

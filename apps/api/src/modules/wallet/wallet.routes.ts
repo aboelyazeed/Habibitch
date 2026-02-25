@@ -23,8 +23,8 @@ function getWallet(userId: string) {
   return wallets.get(userId)!;
 }
 
-// GET /api/wallet
-router.get("/", authenticate, (req: AuthRequest, res) => {
+// GET /api/wallet/my-balance
+router.get("/my-balance", authenticate, (req: AuthRequest, res) => {
   const wallet = getWallet(req.userId!);
   res.json({
     success: true,

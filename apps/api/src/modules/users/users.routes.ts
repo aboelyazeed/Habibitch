@@ -9,6 +9,18 @@ function paramId(req: { params: Record<string, string | string[]> }): string {
   return Array.isArray(val) ? val[0] : val;
 }
 
+// GET /api/users/me
+router.get("/me", authenticate, (req: AuthRequest, res) => {
+  const user = users.get(req.userId!);
+  if (!user) {
+    return res
+      .status(404)
+      .json({ success: false, error: "المستخدم غير موجود" });
+  }
+  const { passwordHash: _, ...safeUser } = user;
+  res.json({ success: true, user: safeUser });
+});
+
 // GET /api/users/:id
 router.get("/:id", (req, res) => {
   const user = users.get(paramId(req));

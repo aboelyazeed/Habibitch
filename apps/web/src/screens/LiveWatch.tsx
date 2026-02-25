@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { t } from "../i18n";
 import { useStreamStore, useUIStore } from "../state/store";
-import { MOCK_CHAT_MESSAGES, MOCK_STREAMS } from "../services/mock-data";
+import { MOCK_CHAT_MESSAGES } from "../services/mock-data";
 import "./LiveWatch.css";
 
 export default function LiveWatch() {
@@ -27,7 +27,18 @@ export default function LiveWatch() {
     if (streamId) selectStream(streamId);
   }, [streamId, selectStream]);
 
-  const stream = selectedStream || MOCK_STREAMS[0];
+  if (!selectedStream) {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "100vh" }}
+      >
+        <div className="spinner" />
+      </div>
+    );
+  }
+
+  const stream = selectedStream;
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();

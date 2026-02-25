@@ -25,12 +25,16 @@ export default function SignupScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { signup, isLoading } = useAuthStore();
+  const { signup, isLoading, error } = useAuthStore();
   const router = useRouter();
 
-  const handleSignup = () => {
-    signup(email, password, displayName);
-    setTimeout(() => router.push("/verify-email"), 900);
+  const handleSignup = async () => {
+    try {
+      await signup(email, password, displayName);
+      router.replace("/(tabs)/home");
+    } catch (err) {
+      // Handled by store, will display below
+    }
   };
 
   return (
@@ -45,6 +49,11 @@ export default function SignupScreen() {
         <View style={styles.header}>
           <Text style={styles.title}>{t("auth.signupTitle")}</Text>
           <Text style={styles.subtitle}>{t("auth.welcomeSubtitle")}</Text>
+          {error && (
+            <Text style={{ color: "#ef4444", marginTop: SPACING.md }}>
+              {error}
+            </Text>
+          )}
         </View>
 
         <View style={styles.form}>

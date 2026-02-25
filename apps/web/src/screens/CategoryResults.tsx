@@ -1,13 +1,20 @@
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { MOCK_STREAMS } from "../services/mock-data";
+import { useStreamStore } from "../state/store";
 import StreamCard from "../components/stream/StreamCard";
 import { HALAL_CATEGORIES } from "@habibi/shared";
 import { t } from "../i18n";
 
 export default function CategoryResults() {
   const { slug } = useParams<{ slug: string }>();
+  const { streams, fetchStreams } = useStreamStore();
+
+  useEffect(() => {
+    if (streams.length === 0) fetchStreams();
+  }, [streams.length, fetchStreams]);
+
   const category = HALAL_CATEGORIES.find((c) => c.slug === slug);
-  const streams = MOCK_STREAMS.filter((s) => s.categoryId === category?.id);
+  const categoryStreams = streams.filter((s) => s.categoryId === category?.id);
 
   return (
     <div className="home-page">
@@ -25,17 +32,17 @@ export default function CategoryResults() {
             {category?.nameAr || slug}
           </h1>
           <p className="text-muted" style={{ fontSize: "var(--text-sm)" }}>
-            {streams.length} {t("categories.streams")}
+            {categoryStreams.length} {t("categories.streams")}
           </p>
         </div>
       </div>
-      {streams.length === 0 ? (
+      {categoryStreams.length === 0 ? (
         <div className="empty-state">
           <h2 className="empty-state-title">{t("home.noStreams")}</h2>
         </div>
       ) : (
         <div className="stream-grid">
-          {streams.map((stream) => (
+          {categoryStreams.map((stream) => (
             <StreamCard key={stream.id} {...stream} />
           ))}
         </div>

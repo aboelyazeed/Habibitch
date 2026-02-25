@@ -9,13 +9,17 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const { signup, isLoading } = useAuthStore();
+  const { signup, isLoading, error } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    signup(email, password, displayName);
-    setTimeout(() => navigate("/create-profile"), 900);
+    try {
+      await signup(email, password, displayName);
+      navigate("/");
+    } catch {
+      // Error is handled by the store
+    }
   };
 
   return (
@@ -34,6 +38,22 @@ export default function Signup() {
 
           <h2 className="auth-title">{t("auth.signupTitle")}</h2>
           <p className="auth-subtitle">{t("auth.welcomeSubtitle")}</p>
+
+          {error && (
+            <div
+              style={{
+                color: "var(--color-live)",
+                backgroundColor: "var(--color-live-glow)",
+                padding: "10px",
+                borderRadius: "var(--radius-md)",
+                marginBottom: "var(--space-4)",
+                textAlign: "center",
+                border: "1px solid rgba(255, 71, 87, 0.2)",
+              }}
+            >
+              {error}
+            </div>
+          )}
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="input-group">

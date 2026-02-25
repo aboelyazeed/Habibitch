@@ -1,7 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "./components/layout/Navbar";
 import Sidebar from "./components/layout/Sidebar";
-import { useUIStore } from "./state/store";
+import { useUIStore, useAuthStore } from "./state/store";
 import { setLanguage } from "./i18n";
 
 // Screens
@@ -50,6 +51,23 @@ function AuthLayout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { checkAuth, isLoading } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (isLoading) {
+    return (
+      <div
+        className="flex justify-center items-center"
+        style={{ height: "100vh" }}
+      >
+        <div className="spinner" />
+      </div>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>

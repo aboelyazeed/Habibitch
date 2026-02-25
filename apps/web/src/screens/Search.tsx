@@ -1,22 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search as SearchIcon } from "lucide-react";
 import { t } from "../i18n";
-import { MOCK_STREAMS } from "../services/mock-data";
+import { useStreamStore } from "../state/store";
 import StreamCard from "../components/stream/StreamCard";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
   const [query, setQuery] = useState(initialQuery);
+  const { streams, fetchStreams } = useStreamStore();
+
+  useEffect(() => {
+    if (streams.length === 0) fetchStreams();
+  }, [streams.length, fetchStreams]);
 
   const filteredStreams = query.trim()
-    ? MOCK_STREAMS.filter(
+    ? streams.filter(
         (s) =>
           s.title.includes(query) ||
           s.creatorName.includes(query) ||
-          s.categoryName.includes(query) ||
-          s.tags?.some((tag) => tag.includes(query)),
+          s.categoryName.includes(query),
       )
     : [];
 

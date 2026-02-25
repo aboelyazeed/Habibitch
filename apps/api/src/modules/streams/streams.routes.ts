@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 const router = Router();
 
-const streams = [
+export const streams = [
   {
     id: "stream-1",
     creatorId: "user-1",

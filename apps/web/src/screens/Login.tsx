@@ -8,13 +8,17 @@ import "./Auth.css";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoading } = useAuthStore();
+  const { login, isLoading, error } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    login(email, password);
-    setTimeout(() => navigate("/"), 900);
+    try {
+      await login(email, password);
+      navigate("/");
+    } catch {
+      // Error is handled by the store and can be displayed if we want
+    }
   };
 
   return (
@@ -35,6 +39,22 @@ export default function Login() {
 
           <h2 className="auth-title">{t("auth.loginTitle")}</h2>
           <p className="auth-subtitle">{t("auth.welcomeSubtitle")}</p>
+
+          {error && (
+            <div
+              style={{
+                color: "var(--color-live)",
+                backgroundColor: "var(--color-live-glow)",
+                padding: "10px",
+                borderRadius: "var(--radius-md)",
+                marginBottom: "var(--space-4)",
+                textAlign: "center",
+                border: "1px solid rgba(255, 71, 87, 0.2)",
+              }}
+            >
+              {error}
+            </div>
+          )}
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="input-group">

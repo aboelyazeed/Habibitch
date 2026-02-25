@@ -1,6 +1,16 @@
 import { Router } from "express";
+import { streams } from "../streams/streams.routes.js"; // We need to export this first
 
 const router = Router();
+
+// GET /api/discovery/feed
+router.get("/feed", (_req, res) => {
+  res.json({
+    success: true,
+    streams: streams,
+    followedStreams: streams.slice(0, 4),
+  });
+});
 
 const categories = [
   { id: "gaming", nameAr: "ألعاب", icon: "🎮", streamCount: 44 },

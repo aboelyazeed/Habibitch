@@ -1,23 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BadgeCheck, UserPlus, UserMinus, Gift, Bell } from "lucide-react";
 import { t } from "../i18n";
-import { MOCK_STREAMS } from "../services/mock-data";
+import { useStreamStore } from "../state/store";
 import StreamCard from "../components/stream/StreamCard";
 import "./CreatorProfile.css";
 
 export default function CreatorProfile() {
   const { userId } = useParams<{ userId: string }>();
+  // Here userId is actually the creatorId, but selectStream takes stream id.
+  // To get a creator we ideally need a user fetch endpoint, but for now we look in the streams.
   const [isFollowing, setIsFollowing] = useState(false);
+  const { streams, fetchStreams } = useStreamStore();
 
-  // Find creator from mock data
-  const creator = MOCK_STREAMS.find((s) => s.creatorId === userId);
-  const creatorStreams = MOCK_STREAMS.filter((s) => s.creatorId === userId);
+  useEffect(() => {
+    if (streams.length === 0) fetchStreams();
+  }, [streams.length, fetchStreams]);
+
+  const creatorStreams = streams.filter((s) => s.creatorId === userId);
+  const creator = creatorStreams[0];
 
   if (!creator) {
     return (
       <div className="empty-state">
-        <h2 className="empty-state-title">المنشئ غير موجود</h2>
+        <h2 className="empty-state-title">
+          المنشئ غير موجود أو ليس لديه بثوث حالياً
+        </h2>
       </div>
     );
   }

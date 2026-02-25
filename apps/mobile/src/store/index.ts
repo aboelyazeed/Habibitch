@@ -218,80 +218,197 @@ export const MOCK_NOTIFICATIONS = [
 ];
 
 // ── Auth Store ──
+import api from "../lib/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+export interface UserProfile {
+  id: string;
+  email: string;
+  displayName: string;
+  avatarUrl?: string;
+  bio?: string;
+  followerCount: number;
+  followingCount: number;
+  isCreator: boolean;
+  isVerified: boolean;
+}
+
 interface AuthState {
-  user: typeof MOCK_CURRENT_USER | null;
+  user: UserProfile | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => void;
-  signup: (email: string, password: string, displayName: string) => void;
-  logout: () => void;
+  error: string | null;
+  login: (email: string, password: string) => Promise<void>;
+  signup: (
+    email: string,
+    password: string,
+    displayName: string,
+  ) => Promise<void>;
+  logout: () => Promise<void>;
+  checkAuth: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
-  isLoading: false,
-  login: (_email: string, _password: string) => {
-    set({ isLoading: true });
-    setTimeout(
-      () =>
-        set({
-          user: MOCK_CURRENT_USER,
-          isAuthenticated: true,
-          isLoading: false,
-        }),
-      800,
-    );
+  isLoading: true, // start loading for checkAuth
+  error: null,
+  login: async (email, password) => {
+    try {
+      set({ isLoading: true, error: null });
+      const res = await api.post("/auth/login", { email, password });
+      const { token, user } = res.data;
+      await AsyncStorage.setItem("habibi_token", token);
+      set({ user, isAuthenticated: true, isLoading: false, error: null });
+    } catch (err: any) {
+      set({
+        isLoading: false,
+        error: err.response?.data?.error || err.message || "Failed to login",
+      });
+      throw err;
+    }
   },
-  signup: (_email: string, _password: string, _displayName: string) => {
-    set({ isLoading: true });
-    setTimeout(
-      () =>
-        set({
-          user: MOCK_CURRENT_USER,
-          isAuthenticated: true,
-          isLoading: false,
-        }),
-      800,
-    );
+  signup: async (email, password, displayName) => {
+    try {
+      set({ isLoading: true, error: null });
+      const res = await api.post("/auth/register", {
+        email,
+        password,
+        displayName,
+      });
+      const { token, user } = res.data;
+      await AsyncStorage.setItem("habibi_token", token);
+      set({ user, isAuthenticated: true, isLoading: false, error: null });
+    } catch (err: any) {
+      set({
+        isLoading: false,
+        error: err.response?.data?.error || err.message || "Failed to sign up",
+      });
+      throw err;
+    }
   },
-  logout: () => set({ user: null, isAuthenticated: false }),
+  logout: async () => {
+    await AsyncStorage.removeItem("habibi_token");
+    set({ user: null, isAuthenticated: false });
+  },
+  checkAuth: async () => {
+    try {
+      const token = await AsyncStorage.getItem("habibi_token");
+      if (!token) {
+        set({ isLoading: false, isAuthenticated: false, user: null });
+        return;
+      }
+      const res = await api.get("/users/me");
+      set({
+        user: res.data.user,
+        isAuthenticated: true,
+        isLoading: false,
+        error: null,
+      });
+    } catch (err) {
+      await AsyncStorage.removeItem("habibi_token");
+      set({ isLoading: false, isAuthenticated: false, user: null });
+    }
+  },
 }));
 
 // ── Stream Store ──
+interface Stream {
+  id: string;
+  creatorId: string;
+  creatorName: string;
+  creatorAvatarUrl: string;
+  isCreatorVerified: boolean;
+  title: string;
+  categoryId: string;
+  categoryName: string;
+  thumbnailUrl: string;
+  status: "live" | "ended";
+  viewerCount: number;
+  startedAt: string;
+}
+
 interface StreamState {
-  streams: typeof MOCK_STREAMS;
-  selectedStream: (typeof MOCK_STREAMS)[0] | null;
+  streams: Stream[];
+  followedStreams: Stream[];
+  selectedStream: Stream | null;
   isLoading: boolean;
-  fetchStreams: () => void;
-  selectStream: (id: string) => void;
+  error: string | null;
+  fetchStreams: () => Promise<void>;
+  selectStream: (id: string) => Promise<void>;
 }
 
 export const useStreamStore = create<StreamState>((set, get) => ({
   streams: [],
+  followedStreams: [],
   selectedStream: null,
   isLoading: false,
-  fetchStreams: () => {
-    set({ isLoading: true });
-    setTimeout(() => set({ streams: MOCK_STREAMS, isLoading: false }), 500);
+  error: null,
+  fetchStreams: async () => {
+    try {
+      set({ isLoading: true, error: null });
+      const res = await api.get("/discovery/feed");
+      set({
+        streams: res.data.streams || [],
+        followedStreams: res.data.followedStreams || [],
+        isLoading: false,
+      });
+    } catch (err: any) {
+      set({
+        isLoading: false,
+        error:
+          err.response?.data?.error || err.message || "Failed to fetch streams",
+      });
+    }
   },
-  selectStream: (id: string) => {
-    const stream =
-      get().streams.find((s) => s.id === id) ||
-      MOCK_STREAMS.find((s) => s.id === id);
-    set({ selectedStream: stream || null });
+  selectStream: async (id: string) => {
+    try {
+      set({ isLoading: true, error: null });
+      // We can optimistically set the stream if it's already in our list
+      const existing = get().streams.find((s) => s.id === id);
+      if (existing) set({ selectedStream: existing });
+
+      const res = await api.get(`/streams/${id}`);
+      set({ selectedStream: res.data.stream, isLoading: false });
+    } catch (err: any) {
+      set({
+        isLoading: false,
+        error:
+          err.response?.data?.error ||
+          err.message ||
+          "Failed to fetch stream details",
+      });
+    }
   },
 }));
 
 // ── Wallet Store ──
 interface WalletState {
   balance: number;
+  isLoading: boolean;
+  error: string | null;
+  fetchBalance: () => Promise<void>;
   addBalance: (amount: number) => void;
   deductBalance: (amount: number) => boolean;
 }
 
 export const useWalletStore = create<WalletState>((set, get) => ({
-  balance: 1250,
+  balance: 0,
+  isLoading: false,
+  error: null,
+  fetchBalance: async () => {
+    try {
+      set({ isLoading: true, error: null });
+      const res = await api.get("/wallet/my-balance");
+      set({ balance: res.data.balance, isLoading: false });
+    } catch (err: any) {
+      set({
+        isLoading: false,
+        error:
+          err.response?.data?.error || err.message || "Failed to fetch balance",
+      });
+    }
+  },
   addBalance: (amount: number) => set((s) => ({ balance: s.balance + amount })),
   deductBalance: (amount: number) => {
     if (get().balance >= amount) {
