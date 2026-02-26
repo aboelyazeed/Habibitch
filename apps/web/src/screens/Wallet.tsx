@@ -33,10 +33,10 @@ export default function Wallet() {
           {CURRENCY_PACKAGES.map((pkg) => (
             <button
               key={pkg.id}
-              className={`wallet-package-card ${pkg.isPopular ? "wallet-package-popular" : ""}`}
+              className={`wallet-package-card ${(pkg as any).isPopular ? "wallet-package-popular" : ""}`}
               onClick={() => addBalance(pkg.amount)}
             >
-              {pkg.isPopular && (
+              {(pkg as any).isPopular && (
                 <span className="wallet-popular-badge">
                   <Sparkles size={12} />
                   {t("wallet.popular")}

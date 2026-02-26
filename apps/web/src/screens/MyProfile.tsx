@@ -1,6 +1,6 @@
 import { t } from "../i18n";
 import { useAuthStore } from "../state/store";
-import { BadgeCheck, Edit2, Users, Heart } from "lucide-react";
+import { BadgeCheck, Edit2 } from "lucide-react";
 import { MOCK_CURRENT_USER } from "../services/mock-data";
 import "./MyProfile.css";
 
